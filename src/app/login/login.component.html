@@ -1,36 +1,24 @@
 <div class="login-container">
-  <div class="login-card mat-elevation-z8">
-    <h1 class="title">INVENTARIO NACIONAL FORESTAL</h1>
-    <p class="subtitle">Inicia sesión para continuar</p>
+  <div class="login-card animate__animated animate__fadeIn">
+    <h1>Inventario Nacional Forestal</h1>
+    <p>Inicia sesión para continuar</p>
 
-    <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo electrónico</mat-label>
-        <input matInput placeholder="usuario@correo.com" formControlName="email" />
-        <mat-icon matSuffix>mail</mat-icon>
+        <input matInput type="email" formControlName="correo" placeholder="ejemplo@ideam.gov.co" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
         <input matInput type="password" formControlName="password" />
-        <mat-icon matSuffix>lock</mat-icon>
       </mat-form-field>
 
-      <button
-        mat-raised-button
-        color="primary"
-        class="login-btn"
-        [disabled]="loginForm.invalid"
-      >
-        Entrar
+      <button mat-flat-button color="primary" class="full-width" type="submit">
+        Iniciar sesión
       </button>
     </form>
 
-    <p class="footer">
-      ¿No tienes cuenta?
-      <a href="#" class="link">Contacta al administrador</a>
-    </p>
+    <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
   </div>
-
-  <div class="animated-bg"></div>
 </div>

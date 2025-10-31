@@ -1,87 +1,50 @@
-/* Fondo con gradiente */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #e8f5e9, #ffffff);
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #006400, #228b22, #32cd32);
+  background-size: 400% 400%;
+  animation: gradientMove 8s ease infinite;
 }
 
-/* Tarjeta principal */
 .login-card {
   background: #fff;
-  padding: 3rem 3.5rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  max-width: 420px;
-  width: 100%;
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
   text-align: center;
-  transition: transform 0.3s ease;
 }
 
-.login-card:hover {
-  transform: translateY(-5px);
-}
-
-/* Animación de entrada */
-.animate-fade {
-  animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Títulos */
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2e7d32;
+h1 {
+  color: #1b5e20;
   margin-bottom: 0.5rem;
+  font-size: 1.8rem;
 }
 
-.subtitle {
+p {
   color: #555;
-  margin-bottom: 2rem;
-}
-
-/* Campos de formulario */
-.full-width {
-  width: 100%;
   margin-bottom: 1.5rem;
 }
 
-/* Botón */
-.login-button {
+.full-width {
   width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
-/* Footer */
-.footer {
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: #666;
+.error {
+  color: red;
+  margin-top: 1rem;
 }
 
-.admin-link {
-  color: #2e7d32;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.admin-link:hover {
-  text-decoration: underline;
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

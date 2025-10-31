@@ -1,0 +1,18 @@
+<div class="admin-container">
+  <mat-card class="card">
+    <h1>Panel de Administración</h1>
+    <p>Bienvenido, {{ usuario?.nombre }} ({{ usuario?.rol }})</p>
+
+    <!-- 🔹 Menú de opciones del administrador -->
+    <div class="admin-menu">
+      <button mat-raised-button color="primary">Registrar Usuario</button>
+      <button mat-raised-button color="accent">Registrar Brigada</button>
+      <button mat-raised-button color="accent">Asignar Conglomerados</button>
+      <button mat-raised-button color="primary">Registrar Conglomerado</button>
+      <button mat-raised-button color="warn">Confirmar Recepción de Muestras</button>
+      <button mat-raised-button color="primary">Consultar Especies por Territorio</button>
+    </div>
+
+    <button mat-button color="warn" (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</div>

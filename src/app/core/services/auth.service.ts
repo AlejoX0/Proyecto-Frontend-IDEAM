@@ -1,78 +1,72 @@
-import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
-import { environment } from '../../../environments/environment';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+interface Usuario {
+  id: string;
+  nombre: string;
+  apellido: string;
+  correo: string;
+  rol: string;
+}
+
+interface LoginResponse {
+  mensaje: string;
+  token: string;
+  usuario: Usuario;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private tokenKey = 'ifn_token';
-  private userKey = 'ifn_user';
-  // default to false and set properly in constructor to avoid SSR accessing localStorage
-  private _isAuthenticated$ = new BehaviorSubject<boolean>(false);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private apiUrl = 'http://localhost:3000/api/auth'; // <-- Ajusta si tu backend usa otro puerto
 
-  isAuthenticated$ = this._isAuthenticated$.asObservable();
+  // 🔹 Login: guarda token y usuario y redirige según rol
+  login(correo: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { correo, password }).pipe(
+      tap((res) => {
+        // Guardar token y usuario en localStorage
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('usuario', JSON.stringify(res.usuario));
 
-  constructor(private api: ApiService, private router: Router) {
-    // Initialize authentication state only when running in the browser
-    try {
-      const token = this.getToken();
-      this._isAuthenticated$.next(!!token);
-    } catch {
-      // In SSR or restricted environments, localStorage may be unavailable — keep default false
-      this._isAuthenticated$.next(false);
-    }
-  }
-
-  login(credentials: { email: string; password: string }) {
-    // Ajusta la ruta si tu backend usa /api/auth/login o similar
-    return this.api.post<any>(`${environment.apiAuthUrl}/auth/login`, credentials).pipe(
-      map((res) => {
-        if (res?.token) {
-          try {
-            if (typeof localStorage !== 'undefined') {
-              localStorage.setItem(this.tokenKey, res.token);
-              localStorage.setItem(this.userKey, JSON.stringify(res.user || {}));
-            }
-          } catch {
-            // ignore storage errors during SSR
-          }
-          this._isAuthenticated$.next(true);
+        // Redirigir según el rol
+        if (res.usuario.rol === 'administrador') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/usuario']);
         }
-        return res;
       })
     );
   }
 
+  // 🔹 Cerrar sesión
   logout() {
-    try {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.removeItem(this.tokenKey);
-        localStorage.removeItem(this.userKey);
-      }
-    } catch {
-      // ignore
-    }
-    this._isAuthenticated$.next(false);
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
-    try {
-      if (typeof localStorage === 'undefined') return null;
-      return localStorage.getItem(this.tokenKey);
-    } catch {
-      return null;
-    }
+  // 🔹 Obtener usuario actual
+  getUsuario(): Usuario | null {
+    const user = localStorage.getItem('usuario');
+    return user ? JSON.parse(user) : null;
   }
 
-  getUser() {
-    try {
-      if (typeof localStorage === 'undefined') return null;
-      const u = localStorage.getItem(this.userKey);
-      return u ? JSON.parse(u) : null;
-    } catch {
-      return null;
-    }
+  // 🔹 Obtener token
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // 🔹 Verificar si está autenticado
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  // 🔹 NUEVO: Verificar si tiene alguno de los roles dados
+  hasRole(roles: string[]): boolean {
+    const usuario = this.getUsuario();
+    return usuario ? roles.includes(usuario.rol) : false;
   }
 }
