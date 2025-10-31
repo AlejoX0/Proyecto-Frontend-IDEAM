@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="login-card mat-elevation-z8">
+    <h1 class="title">INVENTARIO NACIONAL FORESTAL</h1>
+    <p class="subtitle">Inicia sesión para continuar</p>
+
+    <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput placeholder="usuario@correo.com" formControlName="email" />
+        <mat-icon matSuffix>mail</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" />
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="login-btn"
+        [disabled]="loginForm.invalid"
+      >
+        Entrar
+      </button>
+    </form>
+
+    <p class="footer">
+      ¿No tienes cuenta?
+      <a href="#" class="link">Contacta al administrador</a>
+    </p>
+  </div>
+
+  <div class="animated-bg"></div>
+</div>
