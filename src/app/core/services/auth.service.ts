@@ -22,7 +22,7 @@ interface LoginResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = 'http://localhost:3000/api/auth'; // <-- Ajusta si tu backend usa otro puerto
+  private apiUrl = 'http://localhost:3001/api/auth'; // <-- Ajusta si tu backend usa otro puerto
 
   // 🔹 Login: guarda token y usuario y redirige según rol
   login(correo: string, password: string): Observable<LoginResponse> {

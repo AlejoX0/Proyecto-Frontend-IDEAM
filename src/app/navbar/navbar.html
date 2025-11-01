@@ -1,0 +1,60 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- LOGO -->
+    <a routerLink="/inicio" class="logo" (click)="closeMenu()">
+      <img src="/imagenes/LogoNav.png" alt="Logo Inventario Forestal" />
+      <span class="logo-text">Inventario Forestal</span>
+    </a>
+
+    <!-- HAMBURGER -->
+    <button
+      class="hamburger"
+      (click)="toggleMenu()"
+      [class.active]="isMenuOpen"
+      aria-label="Menú"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- MENÚ PRINCIPAL -->
+    <ul class="nav-links" [class.active]="isMenuOpen">
+      <!-- === USUARIOS === -->
+      <li class="dropdown">
+        <button class="dropbtn" (click)="toggleDropdown('usuarios')">
+          Usuarios ▼
+        </button>
+        <div class="dropdown-content" [class.show]="activeDropdown === 'usuarios'">
+          <a routerLink="/crear-usuario" (click)="closeMenu()">Crear usuarios</a>
+          <a routerLink="/eliminar-usuario" (click)="closeMenu()">Eliminación</a>
+        </div>
+      </li>
+
+      <!-- === BRIGADAS === -->
+      <li class="dropdown">
+        <button class="dropbtn" (click)="toggleDropdown('brigadas')">
+          Brigadas ▼
+        </button>
+        <div class="dropdown-content" [class.show]="activeDropdown === 'brigadas'">
+          <a routerLink="/crear-brigada" (click)="closeMenu()">Crear brigadas</a>
+          <a routerLink="/asignar-conglomerado" (click)="closeMenu()">Asignar conglomerados</a>
+          <a routerLink="/listar-brigadas" (click)="closeMenu()">Listar brigadas</a>
+        </div>
+      </li>
+
+      <!-- === CONGLOMERADOS === -->
+      <li class="dropdown">
+        <button class="dropbtn" (click)="toggleDropdown('conglomerados')">
+          Conglomerados ▼
+        </button>
+        <div class="dropdown-content" [class.show]="activeDropdown === 'conglomerados'">
+          <a routerLink="/crear-conglomerado-manual" (click)="closeMenu()">Crear manual</a>
+          <a routerLink="/crear-conglomerado-automatico" (click)="closeMenu()">Crear automático</a>
+          <a routerLink="/listar-conglomerados" (click)="closeMenu()">Listar conglomerados</a>
+          <a routerLink="/listar-subparcelas" (click)="closeMenu()">Listar subparcelas</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

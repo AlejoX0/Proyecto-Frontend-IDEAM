@@ -1,0 +1,20 @@
+$color-fondo: linear-gradient(to bottom right, #e6f0ff, #ffffff);
+$color-texto: #003366;
+
+.inicio-container {
+  text-align: center;
+  padding: 80px 20px;
+  background: $color-fondo;
+  min-height: calc(100vh - 80px);
+
+  h1 {
+    color: $color-texto;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #555;
+    font-size: 1.1rem;
+  }
+}
