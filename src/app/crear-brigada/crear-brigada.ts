@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-crear-brigada',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, Navbar],
   templateUrl: './crear-brigada.html',
-  styleUrl: './crear-brigada.scss',
+  styleUrls: ['./crear-brigada.scss']
 })
-export class CrearBrigada {
-
-}
+export class CrearBrigada {}

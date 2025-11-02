@@ -1,0 +1,17 @@
+.pagina {
+  text-align: center;
+  padding: 80px 20px;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+
+  h1 {
+    color: #065f46;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #555;
+    font-size: 1.1rem;
+  }
+}

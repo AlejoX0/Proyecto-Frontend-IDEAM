@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-crear-usuario',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, Navbar],
   templateUrl: './crear-usuario.html',
-  styleUrl: './crear-usuario.scss',
+  styleUrls: ['./crear-usuario.scss']
 })
-export class CrearUsuario {
-
-}
+export class CrearUsuario {}

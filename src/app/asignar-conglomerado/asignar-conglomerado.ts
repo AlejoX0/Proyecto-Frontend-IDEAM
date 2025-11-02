@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-asignar-conglomerado',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, Navbar],
   templateUrl: './asignar-conglomerado.html',
-  styleUrl: './asignar-conglomerado.scss',
+  styleUrls: ['./asignar-conglomerado.scss']
 })
-export class AsignarConglomerado {
-
-}
+export class AsignarConglomerado {}

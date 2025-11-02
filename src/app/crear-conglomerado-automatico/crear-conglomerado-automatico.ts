@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-crear-conglomerado-automatico',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, Navbar],
   templateUrl: './crear-conglomerado-automatico.html',
-  styleUrl: './crear-conglomerado-automatico.scss',
+  styleUrls: ['./crear-conglomerado-automatico.scss']
 })
-export class CrearConglomeradoAutomatico {
-
-}
+export class CrearConglomeradoAutomatico {}
