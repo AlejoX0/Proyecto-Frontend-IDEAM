@@ -1,6 +1,37 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>🗑️ Eliminar Usuario</h1>
-  <p>En esta sección podrás eliminar usuarios existentes del sistema.</p>
-</section>
+<div class="container">
+  <h2>Gestión de Usuarios</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nro Documento</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+        <th>Departamento</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nro_documento }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>{{ usuario.departamento }}</td>
+        <td>
+          <button class="btn-eliminar" (click)="eliminarUsuario(usuario._id!)">
+            🗑️ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

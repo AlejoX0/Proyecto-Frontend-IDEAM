@@ -11,32 +11,30 @@
       </div>
 
       <div class="form-group">
-        <label for="jefe">Jefe de Brigada</label>
-        <input id="jefe" formControlName="jefe" placeholder="Ejemplo: Carlos Ramírez">
-      </div>
-
-      <div class="form-group">
-        <label for="region">Región Asignada</label>
-        <select id="region" formControlName="region">
-          <option value="">Seleccione una región</option>
-          <option value="andina">Andina</option>
-          <option value="amazónica">Amazónica</option>
-          <option value="caribe">Caribe</option>
-          <option value="orinoquía">Orinoquía</option>
-          <option value="pacífico">Pacífico</option>
+        <label for="lider">Líder de Brigada</label>
+        <select id="lider" formControlName="lider">
+          <option value="">Seleccione un líder</option>
+          <option *ngFor="let l of lideres" [value]="l._id">
+            {{ l.nombre }} {{ l.apellido }}
+          </option>
         </select>
       </div>
 
-      <div class="form-row">
-        <div class="form-half">
-          <label for="codigo">Código de Brigada</label>
-          <input id="codigo" formControlName="codigo" [disabled]="true">
-        </div>
-        <div class="form-half">
-          <label for="fecha">Fecha de Creación</label>
-          <input id="fecha" formControlName="fechaCreacion" [disabled]="true">
-        </div>
+      <div class="form-group">
+        <label for="conglomerado">Conglomerado Asignado</label>
+        <select id="conglomerado" formControlName="id_conglomerado">
+          <option value="">Seleccione un conglomerado</option>
+          <option *ngFor="let c of conglomerados" [value]="c._id">
+            {{ c.nombre }}
+          </option>
+        </select>
       </div>
+
+      <div class="form-group">
+        <label for="fecha">Fecha de Asignación</label>
+        <input id="fecha" formControlName="fecha_asignacion" [disabled]="true">
+      </div>
+
 
       <button type="submit" [disabled]="brigadaForm.invalid">💾 Guardar Brigada</button>
     </form>

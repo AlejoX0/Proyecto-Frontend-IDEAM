@@ -4,44 +4,42 @@
   <h2>Registro de Usuario</h2>
 
   <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+    <!-- Nombres -->
     <label>Nombres:</label>
-    <input formControlName="nombres" (blur)="generarDatos()">
+    <input formControlName="nombre" placeholder="Ingrese nombres">
 
+    <!-- Apellidos -->
     <label>Apellidos:</label>
-    <input formControlName="apellidos" (blur)="generarDatos()">
+    <input formControlName="apellido" placeholder="Ingrese apellidos">
 
-    <label>Tipo de Documento:</label>
-    <select formControlName="tipoDocumento">
-      <option value="CC">Cédula</option>
-      <option value="TI">Tarjeta de Identidad</option>
-      <option value="CE">Cédula de Extranjería</option>
-    </select>
-
+    <!-- Número de documento -->
     <label>Número de Documento:</label>
-    <input formControlName="numeroDocumento" type="number">
+    <input formControlName="nro_documento" type="number" placeholder="Ej: 1001234567">
 
+    <!-- Correo -->
     <label>Correo electrónico:</label>
-    <input formControlName="correo" type="email">
+    <input formControlName="correo" type="email" placeholder="usuario@correo.com">
 
+    <!-- Teléfono -->
     <label>Teléfono:</label>
-    <input formControlName="telefono" type="number">
+    <input formControlName="telefono" type="number" placeholder="Ej: 3123456789">
 
+    <!-- Rol -->
     <label>Rol:</label>
     <select formControlName="rol">
-      <option value="admin">Administrador</option>
-      <option value="jefe">Jefe de Brigada</option>
-      <option value="brigadista">Brigadista</option>
-      <option value="botanico">Botánico</option>
+      <option value="administrador">Administrador</option>
+      <option value="jefe de brigada">Jefe de Brigada</option>
+      <option value="auxiliar de campo">Auxiliar de Campo</option>
+      <option value="botánico">Botánico</option>
     </select>
 
-    <label>Usuario generado:</label>
-    <input formControlName="username" [disabled]="true">
+    <!-- Departamento -->
+    <label>Departamento:</label>
+    <input formControlName="departamento" placeholder="Ej: Santander">
 
+    <!-- Contraseña -->
     <label>Contraseña temporal:</label>
-    <input formControlName="passwordTemporal" [disabled]="true">
-
-    <label>Fecha de registro:</label>
-    <input formControlName="fechaRegistro" [disabled]="true">
+    <input formControlName="password" [disabled]="true">
 
     <button type="submit" [disabled]="usuarioForm.invalid">Guardar Usuario</button>
   </form>

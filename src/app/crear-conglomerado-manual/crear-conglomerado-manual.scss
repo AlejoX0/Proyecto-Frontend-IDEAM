@@ -1,17 +1,80 @@
 .pagina {
-  text-align: center;
-  padding: 80px 20px;
-  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
   background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+  min-height: calc(100vh - 80px);
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
 
   h1 {
     color: #065f46;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
   }
 
   p {
     color: #555;
     font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+
+    input {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.95rem;
+      transition: 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #047857;
+        box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.2);
+      }
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background: linear-gradient(90deg, #047857, #059669);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+
+    &:hover {
+      background: linear-gradient(90deg, #065f46, #047857);
+      transform: scale(1.02);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 }

@@ -1,6 +1,37 @@
 <app-navbar></app-navbar>
 
 <section class="pagina">
-  <h1>🌲 Crear Conglomerado Manual</h1>
-  <p>Registra un nuevo conglomerado ingresando la información manualmente.</p>
+  <div class="card">
+    <h1>🌲 Crear Conglomerado Manual</h1>
+    <p>Registra un nuevo conglomerado ingresando la información manualmente.</p>
+
+    <form [formGroup]="conglomeradoForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Nombre del Conglomerado</label>
+        <input formControlName="nombre" placeholder="Ej: Conglomerado Norte" />
+      </div>
+
+      <div class="form-group">
+        <label>Departamento</label>
+        <input formControlName="departamento" placeholder="Ej: Santander" />
+      </div>
+
+      <div class="form-group">
+        <label>Municipio</label>
+        <input formControlName="municipio" placeholder="Ej: Bucaramanga" />
+      </div>
+
+      <div class="form-group">
+        <label>Vereda</label>
+        <input formControlName="vereda" placeholder="Ej: Vereda Rosales" />
+      </div>
+
+      <div class="form-group">
+        <label>Coordenadas</label>
+        <input formControlName="coordenadas" placeholder="Ej: 7.1256, -73.1231" />
+      </div>
+
+      <button type="submit" [disabled]="conglomeradoForm.invalid">💾 Crear Conglomerado</button>
+    </form>
+  </div>
 </section>

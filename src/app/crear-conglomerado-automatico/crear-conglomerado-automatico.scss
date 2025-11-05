@@ -1,4 +1,4 @@
-.pagina {
+.container {
   text-align: center;
   padding: 80px 20px;
   min-height: calc(100vh - 80px);
@@ -13,5 +13,22 @@
   p {
     color: #555;
     font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  button {
+    background-color: #047857;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: #065f46;
+    transform: scale(1.05);
   }
 }

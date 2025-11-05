@@ -1,17 +1,51 @@
-.pagina {
-  text-align: center;
-  padding: 80px 20px;
+.container {
+  padding: 40px;
+  background: #f9fafb;
   min-height: calc(100vh - 80px);
-  background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
 
-  h1 {
+  h2 {
+    text-align: center;
     color: #065f46;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 20px;
   }
 
-  p {
-    color: #555;
-    font-size: 1.1rem;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background-color: #047857;
+      color: white;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f0fdf4;
+    }
+
+    .btn-eliminar {
+      background-color: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: #b91c1c;
+        transform: scale(1.05);
+      }
+    }
   }
 }

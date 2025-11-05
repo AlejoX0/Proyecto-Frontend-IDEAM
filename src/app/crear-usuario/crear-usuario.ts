@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Navbar } from '../navbar/navbar'; // usa tu clase Navbar real
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -15,34 +15,41 @@ export class CrearUsuario {
 
   constructor(private fb: FormBuilder) {
     this.usuarioForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
-      numeroDocumento: ['', Validators.required],
+      nro_documento: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      apellido: ['', [Validators.required]],
       correo: ['', [Validators.required, Validators.email]],
       telefono: [''],
-      rol: ['', Validators.required],
-      username: [{ value: '', disabled: true }],
-      passwordTemporal: [{ value: '', disabled: true }],
-      fechaRegistro: [{ value: new Date().toLocaleDateString(), disabled: true }],
-      estado: [{ value: 'Activo', disabled: true }]
+      password: [{ value: '', disabled: true }],
+      rol: ['auxiliar de campo', Validators.required],
+      departamento: ['']
     });
   }
 
-  generarDatos() {
-    const nombres = this.usuarioForm.get('nombres')?.value?.toLowerCase()?.replace(/\s+/g, '');
-    const apellidos = this.usuarioForm.get('apellidos')?.value?.toLowerCase()?.replace(/\s+/g, '');
-    const username = `${nombres}.${apellidos}`;
-    const passwordTemporal = Math.random().toString(36).substring(2, 10);
-    this.usuarioForm.patchValue({ username, passwordTemporal });
+  // Genera una contraseña automática y la muestra en el formulario
+  generarPassword() {
+    const password = Math.random().toString(36).slice(-8);
+    this.usuarioForm.patchValue({ password });
   }
 
+  // Se ejecuta al enviar el formulario
   onSubmit() {
     if (this.usuarioForm.valid) {
       const data = this.usuarioForm.getRawValue();
-      console.log('Usuario registrado:', data);
-      alert(`✅ Usuario ${data.username} creado correctamente`);
-      this.usuarioForm.reset();
+
+      // Si no se generó contraseña, crear una automáticamente
+      if (!data.password) {
+        data.password = Math.random().toString(36).slice(-8);
+      }
+
+      console.log('👤 Usuario registrado:', data);
+      alert(`✅ Usuario ${data.nombre} ${data.apellido} creado correctamente`);
+
+      this.usuarioForm.reset({
+        rol: 'auxiliar de campo'
+      });
+    } else {
+      alert('⚠️ Por favor complete todos los campos obligatorios.');
     }
   }
 }
