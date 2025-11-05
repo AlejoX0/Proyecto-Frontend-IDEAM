@@ -1,6 +1,39 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>🔗 Asignar Conglomerado</h1>
-  <p>Asigna conglomerados a brigadas específicas de forma sencilla.</p>
-</section>
+<div class="asignar-wrapper">
+  <div class="asignar-card">
+    <h2>🔗 Asignar Conglomerado</h2>
+    <p>Asigna conglomerados a brigadas específicas de forma sencilla.</p>
+
+    <form [formGroup]="asignacionForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="brigada">Brigada:</label>
+        <select id="brigada" formControlName="id_brigada">
+          <option value="">Seleccione una brigada</option>
+          <option *ngFor="let b of brigadas" [value]="b.id_brigada">
+            {{ b.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="conglomerado">Conglomerado:</label>
+        <select id="conglomerado" formControlName="id_conglomerado">
+          <option value="">Seleccione un conglomerado</option>
+          <option *ngFor="let c of conglomerados" [value]="c.id_conglomerado">
+            {{ c.codigo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="fecha_asignacion">Fecha de Asignación:</label>
+        <input id="fecha_asignacion" type="date" formControlName="fecha_asignacion" [disabled]="true" />
+      </div>
+
+      <button type="submit" [disabled]="asignacionForm.invalid">
+        ✅ Asignar Conglomerado
+      </button>
+    </form>
+  </div>
+</div>

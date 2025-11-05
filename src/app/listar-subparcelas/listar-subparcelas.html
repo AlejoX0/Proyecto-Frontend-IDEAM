@@ -1,6 +1,36 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>🌿 Listar Subparcelas</h1>
-  <p>Visualiza y gestiona las subparcelas asociadas a cada conglomerado.</p>
-</section>
+<div class="listar-wrapper">
+  <div class="listar-card">
+    <h2>🌱 Listar Subparcelas</h2>
+    <p>Visualiza y gestiona las subparcelas asociadas a cada conglomerado.</p>
+
+    <!-- 🔄 Mensaje de carga -->
+    <div *ngIf="cargando" class="loading">Cargando subparcelas...</div>
+
+    <!-- ✅ Tabla de datos -->
+    <table *ngIf="!cargando && subparcelas.length > 0" class="subparcela-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Conglomerado</th>
+          <th>Categoría</th>
+          <th>Radio (m)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of subparcelas">
+          <td>{{ s.id_subparcela }}</td>
+          <td>{{ s.id_conglomerado }}</td>
+          <td>{{ s.categoria }}</td>
+          <td>{{ s.radio }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ❌ Si no hay registros -->
+    <div *ngIf="!cargando && subparcelas.length === 0" class="empty">
+      No hay subparcelas registradas.
+    </div>
+  </div>
+</div>

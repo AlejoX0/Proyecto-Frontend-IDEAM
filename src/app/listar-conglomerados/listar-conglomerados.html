@@ -1,6 +1,40 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>🗃️ Listar Conglomerados</h1>
-  <p>Consulta todos los conglomerados registrados en el sistema.</p>
-</section>
+<div class="listar-wrapper">
+  <div class="listar-card">
+    <h2>🗺️ Listado de Conglomerados</h2>
+
+    <div *ngIf="cargando" class="loading">Cargando conglomerados...</div>
+
+    <table *ngIf="!cargando && conglomerados.length > 0" class="conglomerado-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Código</th>
+          <th>Departamento</th>
+          <th>Municipio</th>
+          <th>Latitud</th>
+          <th>Longitud</th>
+          <th>Estado</th>
+          <th>Brigada Asignada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of conglomerados">
+          <td>{{ c.id_conglomerado }}</td>
+          <td>{{ c.codigo }}</td>
+          <td>{{ c.departamento }}</td>
+          <td>{{ c.municipio }}</td>
+          <td>{{ c.latitud }}</td>
+          <td>{{ c.longitud }}</td>
+          <td>{{ c.estado }}</td>
+          <td>{{ c.id_brigada || '—' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!cargando && conglomerados.length === 0" class="empty">
+      No hay conglomerados registrados.
+    </div>
+  </div>
+</div>

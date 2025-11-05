@@ -1,6 +1,48 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>👤 Crear Usuario</h1>
-  <p>En esta sección podrás registrar nuevos usuarios en el sistema.</p>
-</section>
+<div class="container">
+  <h2>Registro de Usuario</h2>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+    <label>Nombres:</label>
+    <input formControlName="nombres" (blur)="generarDatos()">
+
+    <label>Apellidos:</label>
+    <input formControlName="apellidos" (blur)="generarDatos()">
+
+    <label>Tipo de Documento:</label>
+    <select formControlName="tipoDocumento">
+      <option value="CC">Cédula</option>
+      <option value="TI">Tarjeta de Identidad</option>
+      <option value="CE">Cédula de Extranjería</option>
+    </select>
+
+    <label>Número de Documento:</label>
+    <input formControlName="numeroDocumento" type="number">
+
+    <label>Correo electrónico:</label>
+    <input formControlName="correo" type="email">
+
+    <label>Teléfono:</label>
+    <input formControlName="telefono" type="number">
+
+    <label>Rol:</label>
+    <select formControlName="rol">
+      <option value="admin">Administrador</option>
+      <option value="jefe">Jefe de Brigada</option>
+      <option value="brigadista">Brigadista</option>
+      <option value="botanico">Botánico</option>
+    </select>
+
+    <label>Usuario generado:</label>
+    <input formControlName="username" [disabled]="true">
+
+    <label>Contraseña temporal:</label>
+    <input formControlName="passwordTemporal" [disabled]="true">
+
+    <label>Fecha de registro:</label>
+    <input formControlName="fechaRegistro" [disabled]="true">
+
+    <button type="submit" [disabled]="usuarioForm.invalid">Guardar Usuario</button>
+  </form>
+</div>

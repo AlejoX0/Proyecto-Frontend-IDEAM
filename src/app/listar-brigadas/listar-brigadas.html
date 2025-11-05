@@ -1,6 +1,36 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>📋 Listar Brigadas</h1>
-  <p>Consulta todas las brigadas creadas y su información asociada.</p>
-</section>
+<div class="listar-wrapper">
+  <div class="listar-card">
+    <h2>🧾 Listado de Brigadas</h2>
+
+    <div *ngIf="cargando" class="loading">Cargando brigadas...</div>
+
+    <table *ngIf="!cargando && brigadas.length > 0" class="brigada-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Jefe</th>
+          <th>Región</th>
+          <th>Fecha de Creación</th>
+          <th>Conglomerado Asignado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of brigadas">
+          <td>{{ b.id_brigada }}</td>
+          <td>{{ b.nombre }}</td>
+          <td>{{ b.jefe }}</td>
+          <td>{{ b.region }}</td>
+          <td>{{ b.fecha_creacion }}</td>
+          <td>{{ b.id_conglomerado || '—' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!cargando && brigadas.length === 0" class="empty">
+      No hay brigadas registradas.
+    </div>
+  </div>
+</div>

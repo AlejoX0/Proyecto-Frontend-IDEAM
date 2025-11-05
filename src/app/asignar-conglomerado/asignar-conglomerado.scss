@@ -1,17 +1,82 @@
-.pagina {
-  text-align: center;
-  padding: 80px 20px;
-  min-height: calc(100vh - 80px);
-  background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+.asignar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 15px;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
 
-  h1 {
+.asignar-card {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  padding: 30px 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
     color: #065f46;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-weight: 700;
   }
 
-  p {
-    color: #555;
-    font-size: 1.1rem;
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #065f46;
+    }
+
+    select, input {
+      border: 1px solid #bdbdbd;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.95rem;
+      background: #fafafa;
+      transition: 0.2s;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #047857;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+    }
   }
+
+  button {
+    width: 100%;
+    background: linear-gradient(90deg, #047857, #059669);
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #065f46, #047857);
+    transform: scale(1.02);
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

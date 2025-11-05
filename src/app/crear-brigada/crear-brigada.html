@@ -1,6 +1,44 @@
 <app-navbar></app-navbar>
 
-<section class="pagina">
-  <h1>👷 Crear Brigada</h1>
-  <p>Administra y crea nuevas brigadas de trabajo desde esta vista.</p>
-</section>
+<div class="brigada-wrapper">
+  <div class="brigada-card">
+    <h2>🧑‍🤝‍🧑 Registro de Brigada</h2>
+
+    <form [formGroup]="brigadaForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nombre">Nombre de la Brigada</label>
+        <input id="nombre" formControlName="nombre" placeholder="Ejemplo: Brigada Alfa">
+      </div>
+
+      <div class="form-group">
+        <label for="jefe">Jefe de Brigada</label>
+        <input id="jefe" formControlName="jefe" placeholder="Ejemplo: Carlos Ramírez">
+      </div>
+
+      <div class="form-group">
+        <label for="region">Región Asignada</label>
+        <select id="region" formControlName="region">
+          <option value="">Seleccione una región</option>
+          <option value="andina">Andina</option>
+          <option value="amazónica">Amazónica</option>
+          <option value="caribe">Caribe</option>
+          <option value="orinoquía">Orinoquía</option>
+          <option value="pacífico">Pacífico</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-half">
+          <label for="codigo">Código de Brigada</label>
+          <input id="codigo" formControlName="codigo" [disabled]="true">
+        </div>
+        <div class="form-half">
+          <label for="fecha">Fecha de Creación</label>
+          <input id="fecha" formControlName="fechaCreacion" [disabled]="true">
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="brigadaForm.invalid">💾 Guardar Brigada</button>
+    </form>
+  </div>
+</div>
