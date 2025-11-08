@@ -11,8 +11,6 @@
         <tr>
           <th>ID</th>
           <th>Código</th>
-          <th>Departamento</th>
-          <th>Municipio</th>
           <th>Latitud</th>
           <th>Longitud</th>
           <th>Estado</th>
@@ -23,10 +21,8 @@
         <tr *ngFor="let c of conglomerados">
           <td>{{ c.id_conglomerado }}</td>
           <td>{{ c.codigo }}</td>
-          <td>{{ c.departamento }}</td>
-          <td>{{ c.municipio }}</td>
-          <td>{{ c.latitud }}</td>
-          <td>{{ c.longitud }}</td>
+          <td>{{ c.lat }}</td>
+          <td>{{ c.lng }}</td>
           <td>{{ c.estado }}</td>
           <td>{{ c.id_brigada || '—' }}</td>
         </tr>

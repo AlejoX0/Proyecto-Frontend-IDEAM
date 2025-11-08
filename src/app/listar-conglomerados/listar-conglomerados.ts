@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 
 interface Conglomerado {
   id_conglomerado: number;
   codigo: string;
-  departamento: string;
-  municipio: string;
-  latitud: number;
-  longitud: number;
+  lat: number;
+  lng: number;
   estado: string;
   id_brigada?: number | null;
 }
@@ -23,33 +23,25 @@ interface Conglomerado {
 export class ListarConglomerados implements OnInit {
   conglomerados: Conglomerado[] = [];
   cargando = true;
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    // 🔹 Simulación de datos (más adelante se reemplaza con HttpClient)
-    setTimeout(() => {
-      this.conglomerados = [
-        {
-          id_conglomerado: 1,
-          codigo: 'CONG-2025-001',
-          departamento: 'Santander',
-          municipio: 'Bucaramanga',
-          latitud: 7.1254,
-          longitud: -73.1198,
-          estado: 'Activo',
-          id_brigada: 3
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Reemplaza con el token real si es necesario
+
+    });
+    this.http.get<Conglomerado[]>('http://localhost:4002/api/conglomerados', { headers })
+      .subscribe({
+        next: (data) => {
+          console.log('Conglomerados cargados:', data);
+          this.conglomerados = data;
+          this.cargando = false;
         },
-        {
-          id_conglomerado: 2,
-          codigo: 'CONG-2025-002',
-          departamento: 'Boyacá',
-          municipio: 'Tunja',
-          latitud: 5.5443,
-          longitud: -73.3576,
-          estado: 'Muestreado',
-          id_brigada: null
+        error: (error) => {
+          console.error('Error al cargar los conglomerados:', error);
+          this.cargando = false;
         }
-      ];
-      this.cargando = false;
-    }, 700);
+      });
   }
 }

@@ -23,7 +23,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   private apiUrl = 'http://localhost:3001/api/auth'; // <-- Ajusta si tu backend usa otro puerto
-
+ 
   // 🔹 Login: guarda token y usuario y redirige según rol
   login(correo: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { correo, password }).pipe(
@@ -34,9 +34,9 @@ export class AuthService {
 
         // Redirigir según el rol
         if (res.usuario.rol === 'administrador') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/inicio']);
         } else {
-          this.router.navigate(['/usuario']);
+          this.router.navigate(['/inicio']);
         }
       })
     );

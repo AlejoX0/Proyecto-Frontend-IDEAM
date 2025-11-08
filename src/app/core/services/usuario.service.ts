@@ -20,7 +20,7 @@ export class UsuarioService {
   private auth = inject(AuthService);
 
   // Ajusta la URL base según tu backend (puerto/ruta)
-  private baseUrl = 'http://localhost:3000/api/usuarios';
+  private baseUrl = 'http://localhost:3001/api/auth/register';
 
   private headers(): { headers: HttpHeaders } {
     const token = this.auth.getToken();

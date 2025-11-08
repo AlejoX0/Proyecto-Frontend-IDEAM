@@ -71,6 +71,6 @@ export const routes: Routes = [
   },
 
   // 🔁 Redirecciones
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-  { path: '**', redirectTo: 'inicio' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' },
 ];
