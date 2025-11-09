@@ -12,7 +12,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class EliminarUsuario implements OnInit {
   usuarios: any[] = [];
-  apiUrl = 'http://localhost:3001/api/usuarios'; // ✅ ajusta al puerto del backend
+  apiUrl = 'http://localhost:3001/api/auth/usuarios'; // ✅ Ruta corregida
 
   constructor(private http: HttpClient) {}
 
@@ -22,11 +22,22 @@ export class EliminarUsuario implements OnInit {
 
   cargarUsuarios(): void {
     const token = localStorage.getItem('token');
+    if (!token) {
+      alert('⚠ No hay token de autenticación. Inicia sesión primero.');
+      return;
+    }
+
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
-      next: (data) => (this.usuarios = data),
-      error: (err) => console.error('Error cargando usuarios:', err),
+      next: (data) => {
+        this.usuarios = data;
+        console.log('✅ Usuarios cargados:', data);
+      },
+      error: (err) => {
+        console.error('❌ Error cargando usuarios:', err);
+        alert('Error al cargar usuarios (ver consola).');
+      },
     });
   }
 
@@ -34,6 +45,11 @@ export class EliminarUsuario implements OnInit {
     if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
 
     const token = localStorage.getItem('token');
+    if (!token) {
+      alert('⚠ No hay token de autenticación.');
+      return;
+    }
+
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.delete(`${this.apiUrl}/${idUsuario}`, { headers }).subscribe({
@@ -42,8 +58,8 @@ export class EliminarUsuario implements OnInit {
         this.usuarios = this.usuarios.filter((u) => u._id !== idUsuario);
       },
       error: (err) => {
-        console.error('Error eliminando usuario:', err);
-        alert('❌ No se pudo eliminar el usuario');
+        console.error('❌ Error eliminando usuario:', err);
+        alert('❌ No se pudo eliminar el usuario.');
       },
     });
   }

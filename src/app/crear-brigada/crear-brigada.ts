@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { BrigadaService } from '../core/services/brigada.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-brigada',
@@ -35,28 +35,57 @@ export class CrearBrigada implements OnInit {
     this.cargarLideres();
   }
 
-  // 🔹 Cargar conglomerados desde el backend
-  cargarConglomerados(): void {
-    this.http.get<any[]>('http://localhost:3001/api/conglomerados/listar').subscribe({
-      next: (res: any[]) => {
-        this.conglomerados = res;
-      },
-      error: (err: any) => {
-        console.error('❌ Error cargando conglomerados:', err);
-        alert('Error al cargar conglomerados.');
-      }
-    });
+// 🔹 Cargar conglomerados desde el microservicio 4002
+cargarConglomerados(): void {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('⚠ No hay token de autenticación. Inicia sesión primero.');
+    return;
   }
 
-  // 🔹 Cargar líderes desde el backend (usuarios con rol jefe)
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  // ✅ Confirmado: esta es la ruta correcta
+  this.http.get<any[]>('http://localhost:4002/api/conglomerados', { headers }).subscribe({
+    next: (res: any[]) => {
+      this.conglomerados = res;
+      console.log('✅ Conglomerados cargados:', res);
+    },
+    error: (err: any) => {
+      console.error('❌ Error cargando conglomerados:', err);
+      alert('Error al cargar conglomerados (ver consola para detalles).');
+    }
+  });
+}
+
+  // 🔹 Cargar jefes de brigada desde el Auth Service (3001)
   cargarLideres(): void {
-    this.http.get<any[]>('http://localhost:3001/api/usuarios/listar').subscribe({
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('⚠ No hay token de autenticación. Inicia sesión primero.');
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    // ✅ FIX 3: Ruta correcta en auth-service/routes/authRoutes.js → /api/auth/usuarios
+    this.http.get<any[]>('http://localhost:3001/api/auth/usuarios', { headers }).subscribe({
       next: (res: any[]) => {
-        this.lideres = res.filter((u: any) => u.rol === 'jefe');
+        // ✅ Filtramos por "jefe" o "jefe de brigada"
+        this.lideres = res.filter(
+          (u: any) =>
+            u.rol &&
+            (u.rol.toLowerCase() === 'jefe' || u.rol.toLowerCase() === 'jefe de brigada')
+        );
+        console.log('✅ Líderes cargados:', this.lideres);
       },
       error: (err: any) => {
         console.error('❌ Error cargando líderes:', err);
-        alert('Error al cargar líderes.');
+        alert('Error al cargar líderes (ver consola).');
       }
     });
   }

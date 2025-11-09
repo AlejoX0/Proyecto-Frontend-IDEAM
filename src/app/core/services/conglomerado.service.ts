@@ -22,7 +22,7 @@ export class ConglomeradoService {
     const token = this.auth.getToken();
     return {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: token ? `Bearer ${token}` : '',
         'Content-Type': 'application/json',
       }),
     };

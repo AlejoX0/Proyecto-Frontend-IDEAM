@@ -4,15 +4,16 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-interface Usuario {
+export interface Usuario {
   id: string;
   nombre: string;
   apellido: string;
   correo: string;
   rol: string;
+  departamento?: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   mensaje: string;
   token: string;
   usuario: Usuario;
@@ -22,9 +23,11 @@ interface LoginResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = 'http://localhost:3001/api/auth'; // <-- Ajusta si tu backend usa otro puerto
- 
-  // 🔹 Login: guarda token y usuario y redirige según rol
+
+  // 🔹 URL base del backend (ajustada a tu servicio real)
+  private apiUrl = 'http://localhost:3001/api/auth';
+
+  // 🔹 LOGIN: guarda token y usuario
   login(correo: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { correo, password }).pipe(
       tap((res) => {
@@ -32,7 +35,7 @@ export class AuthService {
         localStorage.setItem('token', res.token);
         localStorage.setItem('usuario', JSON.stringify(res.usuario));
 
-        // Redirigir según el rol
+        // Redirigir según rol (por ahora todos van al inicio)
         if (res.usuario.rol === 'administrador') {
           this.router.navigate(['/inicio']);
         } else {
@@ -43,7 +46,7 @@ export class AuthService {
   }
 
   // 🔹 Cerrar sesión
-  logout() {
+  logout(): void {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
@@ -54,19 +57,19 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
-  // 🔹 Obtener token
+  // 🔹 Obtener token actual
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // 🔹 Verificar si está autenticado
+  // 🔹 Saber si el usuario está autenticado
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-  // 🔹 NUEVO: Verificar si tiene alguno de los roles dados
+  // 🔹 Saber si tiene un rol permitido
   hasRole(roles: string[]): boolean {
     const usuario = this.getUsuario();
-    return usuario ? roles.includes(usuario.rol) : false;
+    return usuario ? roles.includes(usuario.rol.toLowerCase()) : false;
   }
 }

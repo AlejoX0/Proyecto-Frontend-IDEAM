@@ -4,31 +4,30 @@
   <div class="listar-card">
     <h2>🧾 Listado de Brigadas</h2>
 
+    <!-- Mensaje de carga -->
     <div *ngIf="cargando" class="loading">Cargando brigadas...</div>
 
+    <!-- Tabla principal -->
     <table *ngIf="!cargando && brigadas.length > 0" class="brigada-table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nombre</th>
-          <th>Jefe</th>
-          <th>Región</th>
-          <th>Fecha de Creación</th>
+          <th>Departamento</th>
+          <th>Fecha de Asignación</th>
           <th>Conglomerado Asignado</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let b of brigadas">
           <td>{{ b.id_brigada }}</td>
-          <td>{{ b.nombre }}</td>
-          <td>{{ b.jefe }}</td>
-          <td>{{ b.region }}</td>
-          <td>{{ b.fecha_creacion }}</td>
+          <td>{{ b.departamento || '—' }}</td>
+          <td>{{ b.fecha_asignacion | date: 'yyyy-MM-dd' }}</td>
           <td>{{ b.id_conglomerado || '—' }}</td>
         </tr>
       </tbody>
     </table>
 
+    <!-- Mensaje si no hay datos -->
     <div *ngIf="!cargando && brigadas.length === 0" class="empty">
       No hay brigadas registradas.
     </div>

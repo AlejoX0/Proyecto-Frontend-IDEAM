@@ -1,15 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
-
-interface Brigada {
-  id_brigada: number;
-  nombre: string;
-  jefe: string;
-  region: string;
-  fecha_creacion: string;
-  id_conglomerado?: number | null;
-}
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-brigadas',
@@ -19,31 +11,30 @@ interface Brigada {
   styleUrls: ['./listar-brigadas.scss']
 })
 export class ListarBrigadas implements OnInit {
-  brigadas: Brigada[] = [];
+  brigadas: any[] = [];
   cargando = true;
+  apiUrl = 'http://localhost:4002/api/brigadas'; // 👈 usa el puerto correcto de tu backend
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // 🔹 Simulación de carga (luego se reemplazará por servicio HttpClient)
-    setTimeout(() => {
-      this.brigadas = [
-        {
-          id_brigada: 1,
-          nombre: 'Brigada Norte',
-          jefe: 'Carlos Ramírez',
-          region: 'Andina',
-          fecha_creacion: '2025-10-02',
-          id_conglomerado: 9
-        },
-        {
-          id_brigada: 2,
-          nombre: 'Brigada Sur',
-          jefe: 'Ana Gómez',
-          region: 'Caribe',
-          fecha_creacion: '2025-10-10',
-          id_conglomerado: null
-        }
-      ];
-      this.cargando = false;
-    }, 800);
+    this.cargarBrigadas();
+  }
+
+  cargarBrigadas(): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
+      next: (res) => {
+        console.log('✅ Brigadas cargadas:', res);
+        this.brigadas = res;
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('❌ Error cargando brigadas:', err);
+        this.cargando = false;
+      }
+    });
   }
 }

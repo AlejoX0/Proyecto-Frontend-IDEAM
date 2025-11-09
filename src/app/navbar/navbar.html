@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navbar" *ngIf="usuario">
   <div class="nav-container">
     <!-- LOGO -->
     <a routerLink="/inicio" class="logo" (click)="closeMenu()">
@@ -20,31 +20,32 @@
 
     <!-- MENÚ PRINCIPAL -->
     <ul class="nav-links" [class.active]="isMenuOpen">
-      <!-- === USUARIOS === -->
-      <li class="dropdown">
+      
+      <!-- === USUARIOS (solo administrador) === -->
+      <li class="dropdown" *ngIf="esAdmin()">
         <button class="dropbtn" (click)="toggleDropdown('usuarios')">
           Usuarios ▼
         </button>
         <div class="dropdown-content" [class.show]="activeDropdown === 'usuarios'">
-          <a routerLink="/crear-usuario" (click)="closeMenu()">Crear usuarios</a>
-          <a routerLink="/eliminar-usuario" (click)="closeMenu()">Eliminación</a>
+          <a routerLink="/crear-usuario" (click)="closeMenu()">Crear usuario</a>
+          <a routerLink="/eliminar-usuario" (click)="closeMenu()">Gestionar usuarios</a>
         </div>
       </li>
 
-      <!-- === BRIGADAS === -->
-      <li class="dropdown">
+      <!-- === BRIGADAS (admin y jefe de brigada) === -->
+      <li class="dropdown" *ngIf="esAdmin() || esJefe()">
         <button class="dropbtn" (click)="toggleDropdown('brigadas')">
           Brigadas ▼
         </button>
         <div class="dropdown-content" [class.show]="activeDropdown === 'brigadas'">
-          <a routerLink="/crear-brigada" (click)="closeMenu()">Crear brigadas</a>
-          <a routerLink="/asignar-conglomerado" (click)="closeMenu()">Asignar conglomerados</a>
+          <a *ngIf="esAdmin()" routerLink="/crear-brigada" (click)="closeMenu()">Crear brigada</a>
+          <a *ngIf="esJefe()" routerLink="/asignar-conglomerado" (click)="closeMenu()">Asignar conglomerado</a>
           <a routerLink="/listar-brigadas" (click)="closeMenu()">Listar brigadas</a>
         </div>
       </li>
 
-      <!-- === CONGLOMERADOS === -->
-      <li class="dropdown">
+      <!-- === CONGLOMERADOS (solo admin) === -->
+      <li class="dropdown" *ngIf="esAdmin()">
         <button class="dropbtn" (click)="toggleDropdown('conglomerados')">
           Conglomerados ▼
         </button>
@@ -56,5 +57,11 @@
         </div>
       </li>
     </ul>
+
+    <!-- INFO DEL USUARIO -->
+    <div class="user-info">
+      <span>👤 {{ usuario.nombre }} ({{ usuario.rol }})</span>
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
   </div>
 </nav>
