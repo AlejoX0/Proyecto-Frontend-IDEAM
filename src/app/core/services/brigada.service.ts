@@ -15,7 +15,7 @@ export interface Brigada {
 export class BrigadaService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
-  private baseUrl = 'http://localhost:3001/api/brigadas';
+  private baseUrl = 'http://localhost:4001/api/brigadas';
 
   private headers(): { headers: HttpHeaders } {
     const token: string | null = this.auth.getToken();

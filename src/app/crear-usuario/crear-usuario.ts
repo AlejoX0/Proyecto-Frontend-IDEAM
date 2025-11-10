@@ -37,6 +37,15 @@ export class CrearUsuario {
       this.errorMessage = null;
       
       const formValue = this.usuarioForm.getRawValue();
+
+      // Validación mínima: no enviar si la contraseña está vacía
+      if (!formValue.password || String(formValue.password).trim() === '') {
+        this.isLoading = false;
+        this.errorMessage = 'La contraseña es obligatoria.';
+        alert('La contraseña es obligatoria.');
+        return;
+      }
+
       console.log('👤 Enviando datos del formulario:', formValue);
       
       try {

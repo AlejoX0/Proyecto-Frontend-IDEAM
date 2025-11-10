@@ -16,7 +16,7 @@ export interface Conglomerado {
 export class ConglomeradoService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
-  private apiUrl = 'http://localhost:3001/api/conglomerados';
+  private apiUrl = 'http://localhost:4002/api/conglomerados';
 
   private headers() {
     const token = this.auth.getToken();
