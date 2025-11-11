@@ -49,11 +49,7 @@ export const routes: Routes = [
   },
 
   // 🌲 CONGLOMERADOS
-  {
-    path: 'crear-conglomerado-manual',
-    loadComponent: () =>
-      import('./crear-conglomerado-manual/crear-conglomerado-manual').then((m) => m.CrearConglomeradoManual),
-  },
+  
   {
     path: 'crear-conglomerado-automatico',
     loadComponent: () =>
