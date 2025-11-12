@@ -5,10 +5,10 @@ import { environment } from '../../../environments/environment';
 
 export interface Brigada {
   id_brigada?: number;
-  nombre: string;
+  nombre?: string;
   departamento: string;
-  id_conglomerado: number;
-  lider: string;
+  id_conglomerado: number | null;
+  lider: number;
   fecha_asignacion: string;
 }
 
@@ -23,8 +23,12 @@ export class BrigadaService {
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.error('❌ No se encontró el token en localStorage');
-      throw new Error('Token requerido');
+      // Antes lanzabas Error('Token requerido') — eso puede romper todo si no hay token.
+      // Mejor warn y devolver headers sin Authorization (siempre que tu backend lo permita).
+      console.warn('⚠ No se encontró el token en localStorage. Enviando petición sin Authorization.');
+      return new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
     }
 
     return new HttpHeaders({
@@ -35,6 +39,7 @@ export class BrigadaService {
 
   crearBrigada(data: Brigada): Observable<Brigada> {
     const headers = this.getHeaders();
+    console.log('brigada.service -> crearBrigada payload:', data);
     return this.http.post<Brigada>(this.baseUrl, data, { headers });
   }
 

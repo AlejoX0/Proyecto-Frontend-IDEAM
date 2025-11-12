@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 export interface Conglomerado {
-  id?: number;
-  nombre: string;
+  id_conglomerado?: number;
+  codigo: string;
   departamento: string;
   municipio: string;
   vereda: string;
@@ -39,7 +39,7 @@ export class ConglomeradoService {
   }
 
   // 🔹 Listar todos los conglomerados
-  listar(): Observable<Conglomerado[]> {
-    return this.http.get<Conglomerado[]>(`${this.apiUrl}/listar`, this.headers());
+  listar(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl, this.headers());
   }
 }

@@ -14,8 +14,8 @@
       <div class="form-group">
         <label for="departamento">Departamento</label>
         <select id="departamento" formControlName="departamento">
-          <option value="" disabled selected>Seleccione un departamento</option>
-          <option *ngFor="let d of departamentos" [value]="d">{{ d }}</option>
+          <option [ngValue]="null" disabled selected>Seleccione un departamento</option>
+          <option *ngFor="let d of departamentos" [ngValue]="d">{{ d }}</option>
         </select>
         <div *ngIf="brigadaForm.get('departamento')?.invalid && brigadaForm.get('departamento')?.touched" class="error-message">
           Debe seleccionar un departamento.
@@ -25,19 +25,25 @@
       <div class="form-group">
         <label for="lider">Líder de Brigada</label>
         <select id="lider" formControlName="lider">
-          <option value="" disabled selected>Seleccione un líder</option>
-          <option *ngFor="let l of lideres" [value]="l.id_usuario">
-            {{ l.nombre }} {{ l.apellido }}
+          <option [ngValue]="null" disabled selected>Seleccione un líder</option>
+          <option *ngFor="let l of lideres" [ngValue]="l.nro_documento">
+            {{ l.nombre }} {{ l.apellido || '' }}
           </option>
         </select>
+        <div *ngIf="brigadaForm.get('lider')?.invalid && brigadaForm.get('lider')?.touched" class="error-message">
+          Debe seleccionar un líder de brigada.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="conglomerado">Conglomerado Asignado</label>
         <select id="conglomerado" formControlName="id_conglomerado">
-          <option value="" disabled selected>Seleccione un conglomerado</option>
-          <option *ngFor="let c of conglomerados" [value]="c.id_conglomerado">{{ c.codigo }}</option>
+          <option [ngValue]="null" disabled selected>Seleccione un conglomerado</option>
+          <option *ngFor="let c of conglomerados" [ngValue]="c.id_conglomerado">{{ c.codigo }}</option>
         </select>
+        <div *ngIf="brigadaForm.get('id_conglomerado')?.invalid && brigadaForm.get('id_conglomerado')?.touched" class="error-message">
+          Debe seleccionar un conglomerado.
+        </div>
       </div>
 
       <div class="form-group">
