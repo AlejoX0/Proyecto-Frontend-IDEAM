@@ -1,20 +1,32 @@
 <app-navbar></app-navbar>
 
-<div class="brigada-wrapper">
-  <div class="brigada-card">
-    <h2>🧑‍🤝‍🧑 Registro de Brigada</h2>
+<div class="main-container">
+  <div class="card-content">
+    <div class="card-header">
+      <h2 class="card-title">
+        <span class="icon">🧑‍🤝‍🧑</span> Registro de Brigada
+      </h2>
+      <p>Completa el formulario para registrar una nueva brigada y asignarle sus miembros.</p>
+    </div>
 
-    <form [formGroup]="brigadaForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="brigadaForm" (ngSubmit)="onSubmit()" class="brigada-form">
+
       <div class="form-group">
-        <label for="nombre">Nombre de la Brigada</label>
-        <input id="nombre" formControlName="nombre" placeholder="Ejemplo: Brigada Alfa">
+        <label for="departamento">Departamento</label>
+        <select id="departamento" formControlName="departamento">
+          <option value="" disabled selected>Seleccione un departamento</option>
+          <option *ngFor="let d of departamentos" [value]="d">{{ d }}</option>
+        </select>
+        <div *ngIf="brigadaForm.get('departamento')?.invalid && brigadaForm.get('departamento')?.touched" class="error-message">
+          Debe seleccionar un departamento.
+        </div>
       </div>
 
       <div class="form-group">
         <label for="lider">Líder de Brigada</label>
         <select id="lider" formControlName="lider">
-          <option value="">Seleccione un líder</option>
-          <option *ngFor="let l of lideres" [value]="l._id">
+          <option value="" disabled selected>Seleccione un líder</option>
+          <option *ngFor="let l of lideres" [value]="l.id_usuario">
             {{ l.nombre }} {{ l.apellido }}
           </option>
         </select>
@@ -23,20 +35,19 @@
       <div class="form-group">
         <label for="conglomerado">Conglomerado Asignado</label>
         <select id="conglomerado" formControlName="id_conglomerado">
-          <option value="">Seleccione un conglomerado</option>
-          <option *ngFor="let c of conglomerados" [value]="c._id">
-            {{ c.nombre }}
-          </option>
+          <option value="" disabled selected>Seleccione un conglomerado</option>
+          <option *ngFor="let c of conglomerados" [value]="c.id_conglomerado">{{ c.codigo }}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="fecha">Fecha de Asignación</label>
-        <input id="fecha" formControlName="fecha_asignacion" [disabled]="true">
+        <input id="fecha" type="date" formControlName="fecha_asignacion" readonly>
       </div>
 
-
-      <button type="submit" [disabled]="brigadaForm.invalid">💾 Guardar Brigada</button>
+      <button type="submit" [disabled]="brigadaForm.invalid" class="btn-primary">
+        💾 Guardar Brigada
+      </button>
     </form>
   </div>
 </div>

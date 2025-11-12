@@ -1,151 +1,140 @@
-/* crear-brigada.scss */
-.brigada-wrapper {
+/* Contenedor principal de la página */
+.main-container {
+  padding: 2rem;
+  background-color: #f4f7f6;
+  min-height: calc(100vh - 70px); // Ajusta según la altura de tu navbar
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 40px 15px;
-  background-color: #f1f5f9;
-  min-height: 100vh;
-  box-sizing: border-box;
+  align-items: flex-start; // Alinea la tarjeta al inicio
 }
 
-.brigada-card {
-  background: #ffffff;
+/* Tarjeta principal del formulario */
+.card-content {
+  background-color: #ffffff;
+  padding: 2.5rem 3rem; // Más padding para un look más espacioso
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); // Sombra más pronunciada
+  max-width: 550px; // Ancho fijo para la tarjeta
   width: 100%;
-  max-width: 680px;
-  padding: 30px 28px;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(6, 95, 70, 0.06);
-  animation: fadeIn 0.28s ease-in-out;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
 
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #065f46;
-    font-weight: 700;
-    font-size: 1.4rem;
-  }
+/* Encabezado de la tarjeta */
+.card-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem; // Más espacio debajo del encabezado
 
-  .form-group {
+  .card-title {
+    font-size: 2rem; // Título más grande
+    font-weight: 700; // Más negrita
+    color: #2c3e50; // Un gris oscuro para el texto
     display: flex;
-    flex-direction: column;
-    margin-bottom: 14px;
+    align-items: center;
 
-    label {
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #065f46;
-      font-size: 0.95rem;
-    }
-
-    input,
-    select,
-    textarea {
-      border: 1px solid #e1e7eb;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 0.95rem;
-      background: #fbfffb;
-      transition: all 0.18s ease;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #2ecc71;
-      box-shadow: 0 0 0 6px rgba(46, 204, 113, 0.08);
-      background: #ffffff;
+    .icon {
+      margin-right: 0.8rem;
+      font-size: 1.8rem; // Ícono un poco más grande
+      color: #00796b; // Color verde de tu marca
     }
   }
 
-  .form-row {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 18px;
-
-    .form-half {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-
-      label {
-        font-weight: 600;
-        color: #065f46;
-        margin-bottom: 6px;
-      }
-
-      input {
-        border: 1px solid #d9e7df;
-        border-radius: 8px;
-        padding: 10px;
-        background: #f3fbf5;
-      }
-    }
-  }
-
-  button[type="submit"] {
-    width: 100%;
-    background: linear-gradient(90deg, #047857, #059669);
-    border: none;
-    color: white;
-    font-weight: 700;
+  p {
     font-size: 1rem;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-    box-shadow: 0 6px 14px rgba(4, 120, 87, 0.12);
+    color: #7f8c8d; // Gris suave para la descripción
+    margin-top: 0.75rem;
+  }
+}
+
+/* Estilos del formulario en sí */
+.brigada-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; // Espacio entre grupos de formulario
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #34495e; // Texto de label más oscuro
+    margin-bottom: 0.6rem;
   }
 
-  button[type="submit"]:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(4, 120, 87, 0.16);
-  }
-
-  button[type="submit"]:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-
-  /* pequeños detalles para selects largos */
+  input[type="text"],
+  input[type="date"],
   select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #dcdcdc; // Borde más suave
+    border-radius: 8px; // Bordes redondeados
+    background-color: #f8f8f8; // Un fondo sutil
+    color: #333;
+    transition: all 0.2s ease-in-out; // Transición suave en foco
+
+    &:focus {
+      outline: none;
+      border-color: #00796b; // Verde de tu marca en foco
+      box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2); // Sombra sutil en foco
+      background-color: #fff;
+    }
+
+    &[readonly] {
+      background-color: #e9ecef; // Fondo para campos de solo lectura
+      cursor: not-allowed;
+    }
+
+    // Estilo para el placeholder
+    &::placeholder {
+      color: #b0b0b0;
+    }
+  }
+
+  // Estilo específico para selects (flecha)
+  select {
+    -webkit-appearance: none; // Elimina el estilo por defecto de la flecha en Chrome
+    -moz-appearance: none; // Elimina el estilo por defecto de la flecha en Firefox
     appearance: none;
-    -webkit-appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #145a32 50%),
-                      linear-gradient(135deg, #145a32 50%, transparent 50%);
-    background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
-    background-size: 8px 8px, 8px 8px;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.1%203.4-14.1%209.7-2%206.3-.6%2013.9%203.8%2018.3l132.8%20132.8c1.3%201.3%203.3%201.9%205.2%201.9s3.9-.6%205.2-1.9L283.3%2091c4.4-4.4%205.8-12%203.8-18.3z%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
-    padding-right: 36px;
+    background-position: right 0.7rem top 50%;
+    background-size: 0.65em auto;
+    padding-right: 2.5rem; // Espacio para la flecha personalizada
   }
 }
 
-/* Responsive */
-@media (max-width: 720px) {
-  .brigada-card {
-    padding: 22px;
-    max-width: 100%;
-  }
-
-  .form-row {
-    flex-direction: column;
-  }
+/* Estilo para mensajes de error de validación */
+.error-message {
+  color: #e74c3c; // Rojo para errores
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
 }
 
-/* Animaciones */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+/* Botón de guardar */
+.btn-primary {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #00796b; // Verde de tu marca
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-top: 1rem; // Espacio superior
+
+  &:hover:not([disabled]) {
+    background-color: #005a4e; // Tono más oscuro al pasar el ratón
+    box-shadow: 0 4px 10px rgba(0, 121, 107, 0.3);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  &[disabled] {
+    background-color: #a7d9d2; // Tono más claro cuando está deshabilitado
+    cursor: not-allowed;
+    opacity: 0.8;
   }
 }

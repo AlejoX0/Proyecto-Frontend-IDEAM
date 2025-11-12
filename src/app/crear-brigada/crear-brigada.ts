@@ -16,6 +16,10 @@ export class CrearBrigada implements OnInit {
   brigadaForm!: FormGroup;
   conglomerados: any[] = [];
   lideres: any[] = [];
+  departamentos: string[] = [
+    'Antioquia', 'Boyacá', 'Caldas', 'Cauca', 'Cundinamarca',
+    'Huila', 'Nariño', 'Santander', 'Tolima', 'Valle del Cauca'
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -25,42 +29,40 @@ export class CrearBrigada implements OnInit {
 
   ngOnInit(): void {
     this.brigadaForm = this.fb.group({
-      nombre: ['', Validators.required],
+      nombre_brigada: ['', Validators.required],
+      departamento: ['', Validators.required],
       id_conglomerado: ['', Validators.required],
       lider: ['', Validators.required],
-      fecha_asignacion: [{ value: new Date().toISOString().split('T')[0], disabled: true }]
+      fecha_asignacion: [new Date().toISOString().split('T')[0]]
     });
 
     this.cargarConglomerados();
     this.cargarLideres();
   }
 
-// 🔹 Cargar conglomerados desde el microservicio 4002
-cargarConglomerados(): void {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert('⚠ No hay token de autenticación. Inicia sesión primero.');
-    return;
+  // 🔹 Cargar conglomerados desde el microservicio 4002
+  cargarConglomerados(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('⚠ No hay token de autenticación. Inicia sesión primero.');
+      return;
+    }
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<any[]>('http://localhost:4002/api/conglomerados', { headers }).subscribe({
+      next: (res) => {
+        this.conglomerados = res;
+        console.log('✅ Conglomerados cargados:', res);
+      },
+      error: (err) => {
+        console.error('❌ Error cargando conglomerados:', err);
+        alert('Error al cargar conglomerados (ver consola).');
+      }
+    });
   }
 
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
-
-  // ✅ Confirmado: esta es la ruta correcta
-  this.http.get<any[]>('http://localhost:4002/api/conglomerados', { headers }).subscribe({
-    next: (res: any[]) => {
-      this.conglomerados = res;
-      console.log('✅ Conglomerados cargados:', res);
-    },
-    error: (err: any) => {
-      console.error('❌ Error cargando conglomerados:', err);
-      alert('Error al cargar conglomerados (ver consola para detalles).');
-    }
-  });
-}
-
-  // 🔹 Cargar jefes de brigada desde el Auth Service (3001)
+  // 🔹 Cargar jefes de brigada desde Auth Service (3001)
   cargarLideres(): void {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -68,14 +70,10 @@ cargarConglomerados(): void {
       return;
     }
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    // ✅ FIX 3: Ruta correcta en auth-service/routes/authRoutes.js → /api/auth/usuarios
     this.http.get<any[]>('http://localhost:3001/api/auth/usuarios', { headers }).subscribe({
-      next: (res: any[]) => {
-        // ✅ Filtramos por "jefe" o "jefe de brigada"
+      next: (res) => {
         this.lideres = res.filter(
           (u: any) =>
             u.rol &&
@@ -83,7 +81,7 @@ cargarConglomerados(): void {
         );
         console.log('✅ Líderes cargados:', this.lideres);
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('❌ Error cargando líderes:', err);
         alert('Error al cargar líderes (ver consola).');
       }
@@ -99,19 +97,21 @@ cargarConglomerados(): void {
 
     const data = {
       ...this.brigadaForm.getRawValue(),
-      fecha_asignacion: new Date().toISOString().split('T')[0]
+      fecha_asignacion: new Date(this.brigadaForm.get('fecha_asignacion')?.value).toISOString().split('T')[0]
     };
+
+    console.log("📤 Enviando datos de brigada:", data);
 
     this.brigadaService.crearBrigada(data).subscribe({
       next: () => {
-        alert(`✅ Brigada "${data.nombre}" creada correctamente.`);
+        alert(`✅ Brigada "${data.nombre_brigada}" creada correctamente.`);
         this.brigadaForm.reset({
           fecha_asignacion: new Date().toISOString().split('T')[0]
         });
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('❌ Error al crear brigada:', err);
-        alert('Error al crear la brigada.');
+        alert('Error al crear la brigada (ver consola).');
       }
     });
   }

@@ -1,36 +1,78 @@
 <app-navbar></app-navbar>
 
-<div class="listar-wrapper">
-  <div class="listar-card">
-    <h2>🌱 Listar Subparcelas</h2>
-    <p>Visualiza y gestiona las subparcelas asociadas a cada conglomerado.</p>
-
-    <!-- 🔄 Mensaje de carga -->
-    <div *ngIf="cargando" class="loading">Cargando subparcelas...</div>
-
-    <!-- ✅ Tabla de datos -->
-    <table *ngIf="!cargando && subparcelas.length > 0" class="subparcela-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Conglomerado</th>
-          <th>Categoría</th>
-          <th>Radio (m)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let s of subparcelas">
-          <td>{{ s.id_subparcela }}</td>
-          <td>{{ s.id_conglomerado }}</td>
-          <td>{{ s.categoria }}</td>
-          <td>{{ s.radio }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- ❌ Si no hay registros -->
-    <div *ngIf="!cargando && subparcelas.length === 0" class="empty">
-      No hay subparcelas registradas.
+<main class="main-container">
+  <div class="card-content">
+    
+    <div class="card-header">
+      <h2 class="card-title">
+        <span class="icon">🌱</span> Listar Subparcelas
+      </h2>
+      <p>Visualiza y gestiona las subparcelas asociadas a cada conglomerado.</p>
     </div>
+
+    <div class="filtro-container">
+      
+      <div class="filtro-item">
+        <label for="filtro-conglomerado">Conglomerado:</label>
+        <select 
+          id="filtro-conglomerado"
+          [(ngModel)]="filtroConglomerado" 
+          (ngModelChange)="aplicarFiltros()">
+          
+          <option value="">-- Todos --</option>
+          <option *ngFor="let id of conglomeradosUnicos" [value]="id">
+            {{ id }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filtro-item">
+        <label for="filtro-categoria">Categoría:</label>
+        <select 
+          id="filtro-categoria"
+          [(ngModel)]="filtroCategoria" 
+          (ngModelChange)="aplicarFiltros()">
+
+          <option value="">-- Todas --</option>
+          <option *ngFor="let cat of categoriasUnicas" [value]="cat">
+            {{ cat }}
+          </option>
+        </select>
+      </div>
+
+      <button (click)="limpiarFiltros()" class="btn-limpiar">Limpiar</button>
+    </div>
+
+    <div class="table-container-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Conglomerado</th>
+            <th>Categoría</th>
+            <th>Radio (m)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="cargando">
+            <td colspan="4" class="text-center">Cargando datos...</td>
+          </tr>
+          <tr *ngIf="!cargando && error">
+            <td colspan="4" class="error-message text-center">{{ error }}</td>
+          </tr>
+          <tr *ngIf="!cargando && !error && subparcelas.length === 0">
+            <td colspan="4" class="text-center">No se encontraron subparcelas con los filtros aplicados.</td>
+          </tr>
+
+          <tr *ngFor="let sp of subparcelas">
+            <td>{{ sp.id_subparcela }}</td>
+            <td>{{ sp.id_conglomerado }}</td>
+            <td>{{ sp.categoria }}</td>
+            <td>{{ sp.radio }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
-</div>
+</main>

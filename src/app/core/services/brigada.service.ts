@@ -1,36 +1,52 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 export interface Brigada {
-  _id?: string;
+  id_brigada?: number;
   nombre: string;
-  fecha_asignacion: string;
-  id_conglomerado: string;
+  departamento: string;
+  id_conglomerado: number;
   lider: string;
+  fecha_asignacion: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class BrigadaService {
-  private http = inject(HttpClient);
-  private auth = inject(AuthService);
-  private baseUrl = 'http://localhost:4001/api/brigadas';
+  private baseUrl = `${environment.apiBrigadasUrl}/api/brigadas`;
 
-  private headers(): { headers: HttpHeaders } {
-    const token: string | null = this.auth.getToken();
-    let h = new HttpHeaders({ 'Content-Type': 'application/json' });
-    if (token) h = h.set('Authorization', `Bearer ${token}`);
-    return { headers: h };
+  constructor(private http: HttpClient) {}
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('❌ No se encontró el token en localStorage');
+      throw new Error('Token requerido');
+    }
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
 
-  // 🔹 Crear brigada
-  crearBrigada(data: Brigada): Observable<any> {
-    return this.http.post(`${this.baseUrl}/crear`, data, this.headers());
+  crearBrigada(data: Brigada): Observable<Brigada> {
+    const headers = this.getHeaders();
+    return this.http.post<Brigada>(this.baseUrl, data, { headers });
   }
 
-  // 🔹 Listar brigadas
-  listarBrigadas(): Observable<Brigada[]> {
-    return this.http.get<Brigada[]>(`${this.baseUrl}/listar`, this.headers());
+  listarBrigadas(): Observable<any[]> {
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(this.baseUrl, { headers });
+  }
+
+  asignarConglomerado(id_brigada: number, id_conglomerado: number): Observable<any> {
+    const headers = this.getHeaders();
+    const data = { id_conglomerado };
+    const url = `${this.baseUrl}/${id_brigada}/conglomerado`;
+    return this.http.put(url, data, { headers });
   }
 }

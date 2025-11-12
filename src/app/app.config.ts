@@ -1,15 +1,17 @@
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig = {
   providers: [
-    // Use the new provider-based HTTP client and enable fetch for better SSR compatibility
-    provideHttpClient(withFetch()),
+    // HTTP client con fetch y el interceptor funcional
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([jwtInterceptor])
+    ),
     provideRouter(routes),
     provideAnimations(),
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
 };
