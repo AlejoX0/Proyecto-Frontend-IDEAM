@@ -1,3 +1,4 @@
+/* --- Estilos base (los que ya tenías) --- */
 .listar-wrapper {
   display: flex;
   justify-content: center;
@@ -27,15 +28,118 @@
     text-align: center;
     color: #475569;
     font-size: 1rem;
+    padding: 20px 0;
+  }
+  
+  .empty-filtered {
+    text-align: center;
+    color: #475569;
+    font-size: 1rem;
+    padding: 20px 0;
   }
 
+  /* --- 🎨 MODIFICADO: Estilos para el contenedor de filtros --- */
+  .filters-container {
+    display: grid;
+    // 1. Definimos 4 columnas explícitas para simetría
+    grid-template-columns: repeat(4, 1fr);
+    // 2. Aumentamos el espacio entre filtros
+    gap: 20px; 
+    // 3. Aumentamos el espacio antes de la tabla
+    margin-bottom: 25px;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #059669;
+        box-shadow: 0 0 0 2px #d1fae5;
+      }
+    }
+  }
+
+  /* --- 🎨 MODIFICADO: Estilo para el botón de limpiar (Rojo y Simétrico) --- */
+  .btn-limpiar {
+    // 4. Lo forzamos a la fila 2
+    grid-row: 2;
+    // 5. Lo forzamos a la columna 4 (alineado a la derecha)
+    grid-column: 4 / 5;
+
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: 600; // Un poco más de énfasis
+    
+    // 6. Colores Rojos (Estilo "peligro" suave)
+    color: #dc2626;
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #b91c1c;
+      background-color: #fee2e2;
+      border-color: #f87171;
+    }
+  }
+
+  /* --- Contenedor de la tabla con SCROLL (Sin cambios) --- */
+  .table-wrapper {
+    max-height: 400px; 
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  }
+
+  /* --- Estilos de la tabla (Sin cambios) --- */
   table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
 
     th {
-      background: #065f46;
+      position: sticky;
+      top: 0;
+      z-index: 1; 
+      background: #065f46; 
       color: white;
       padding: 10px;
       font-weight: 600;
@@ -52,6 +156,7 @@
   }
 }
 
+// Animación (Sin cambios)
 @keyframes fadeIn {
   from {
     opacity: 0;

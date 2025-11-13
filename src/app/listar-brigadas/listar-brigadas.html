@@ -4,30 +4,83 @@
   <div class="listar-card">
     <h2>🧾 Listado de Brigadas</h2>
 
-    <!-- Mensaje de carga -->
     <div *ngIf="cargando" class="loading">Cargando brigadas...</div>
 
-    <!-- Tabla principal -->
-    <table *ngIf="!cargando && brigadas.length > 0" class="brigada-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Departamento</th>
-          <th>Fecha de Asignación</th>
-          <th>Conglomerado Asignado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let b of brigadas">
-          <td>{{ b.id_brigada }}</td>
-          <td>{{ b.departamento || '—' }}</td>
-          <td>{{ b.fecha_asignacion | date: 'yyyy-MM-dd' }}</td>
-          <td>{{ b.id_conglomerado || '—' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="!cargando && brigadas.length > 0" class="filters-container">
+      
+      <div class="filter-group">
+        <label for="filtro-id">ID Brigada</label>
+        <input 
+          type="text" 
+          id="filtro-id" 
+          placeholder="Buscar por ID..."
+          [(ngModel)]="filtros.id"
+          (input)="aplicarFiltros()">
+      </div>
+      
+      <div class="filter-group">
+        <label for="filtro-depto">Departamento</label>
+        <select 
+          id="filtro-depto"
+          [(ngModel)]="filtros.departamento"
+          (change)="aplicarFiltros()">
+          
+          <option value="">-- Todos --</option>
+          <option *ngFor="let depto of departamentosUnicos" [value]="depto">
+            {{ depto }}
+          </option>
+        </select>
+      </div>
 
-    <!-- Mensaje si no hay datos -->
+      <div class="filter-group">
+        <label for="filtro-fecha">Fecha Asignación</label>
+        <input 
+          type="date" 
+          id="filtro-fecha"
+          [(ngModel)]="filtros.fecha"
+          (change)="aplicarFiltros()">
+      </div>
+
+      <div class="filter-group">
+        <label for="filtro-conglom">Conglomerado</label>
+        <input 
+          type="text" 
+          id="filtro-conglom"
+          placeholder="Buscar por ID..."
+          [(ngModel)]="filtros.conglomerado"
+          (input)="aplicarFiltros()">
+      </div>
+
+      <button (click)="limpiarFiltros()" class="btn-limpiar">
+        Limpiar
+      </button>
+    </div>
+
+    <div *ngIf="!cargando && brigadas.length > 0" class="table-wrapper">
+      <table class="brigada-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Departamento</th>
+            <th>Fecha de Asignación</th>
+            <th>Conglomerado Asignado</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="brigadasFiltradas.length > 0">
+          <tr *ngFor="let b of brigadasFiltradas">
+            <td>{{ b.id_brigada }}</td>
+            <td>{{ b.departamento || '—' }}</td>
+            <td>{{ b.fecha_asignacion | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ b.id_conglomerado || '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="brigadasFiltradas.length === 0" class="empty-filtered">
+        No se encontraron brigadas con esos filtros.
+      </div>
+    </div>
+
     <div *ngIf="!cargando && brigadas.length === 0" class="empty">
       No hay brigadas registradas.
     </div>
