@@ -12,6 +12,17 @@ export interface Conglomerado {
   coordenadas: string;
 }
 
+// ➕ NUEVA INTERFAZ SOLO PARA EL MAPA
+export interface ConglomeradoMapa {
+  id_conglomerado: number;
+  codigo: string;
+  lat: number;
+  lng: number;
+  estado: string;
+  fecha_inicio: string | null;
+  fecha_fin: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ConglomeradoService {
   private http = inject(HttpClient);
@@ -38,8 +49,13 @@ export class ConglomeradoService {
     return this.http.post(`${this.apiUrl}/auto`, params, this.headers());
   }
 
-  // 🔹 Listar todos los conglomerados
+  // 🔹 Listar todos (estructura original)
   listar(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl, this.headers());
+  }
+
+  // 🔹 LISTAR PARA MAPA (lat, lng)
+  listarMapa(): Observable<ConglomeradoMapa[]> {
+    return this.http.get<ConglomeradoMapa[]>(this.apiUrl, this.headers());
   }
 }
