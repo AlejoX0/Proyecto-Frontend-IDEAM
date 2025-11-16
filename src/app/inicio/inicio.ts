@@ -1,8 +1,6 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
-
-declare const google: any;
 
 @Component({
   selector: 'app-inicio',
@@ -13,61 +11,40 @@ declare const google: any;
 })
 export class Inicio implements AfterViewInit {
 
-  ngAfterViewInit() {
-    this.cargarGoogleMaps().then(() => {
-      this.inicializarMapa();
-    });
-  }
+  private map: any;
+  private L: any;
+  private circle: any;
 
-  // Cargar script de Google Maps
-  cargarGoogleMaps(): Promise<void> {
-    return new Promise((resolve) => {
-      if ((window as any).google) {
-        resolve();
-        return;
-      }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-      const script = document.createElement('script');
-      script.src =
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyApWOGS5pzQI_PnIusKmSxKMHJhhd30LIo';
-      script.async = true;
-      script.defer = true;
-      script.onload = () => resolve();
-      document.body.appendChild(script);
-    });
+  async ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    // Cargar Leaflet dinámicamente para no romper SSR
+    this.L = await import('leaflet');
+
+    this.inicializarMapa();
+    this.mostrarConglomerados();
   }
 
   inicializarMapa() {
+    const contenedor = document.getElementById('map');
+    if (!contenedor) return;
 
-    // Tema oscuro para el mapa
-    const darkStyle = [
-      { elementType: "geometry", stylers: [{ color: "#1d1d1d" }] },
-      { elementType: "labels.text.stroke", stylers: [{ color: "#1d1d1d" }] },
-      { elementType: "labels.text.fill", stylers: [{ color: "#8bc34a" }] },
-      {
-        featureType: "administrative",
-        elementType: "geometry",
-        stylers: [{ color: "#4d4d4d" }]
-      },
-      {
-        featureType: "poi.park",
-        elementType: "geometry",
-        stylers: [{ color: "#003300" }]
-      },
-      {
-        featureType: "water",
-        elementType: "geometry",
-        stylers: [{ color: "#0a2342" }]
-      }
-    ];
+    this.map = this.L.map(contenedor, {
+      zoomControl: true,
+      zoomAnimation: true,
+      markerZoomAnimation: true,
+      fadeAnimation: true
+    }).setView([4.5709, -74.2973], 6);
 
-    const mapa = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 4.5709, lng: -74.2973 },
-      zoom: 6,
-      styles: darkStyle
-    });
+    // Capa de mapa
+    this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(this.map);
+  }
 
-    // 🔥 Conglomerados simulados de bosques en Colombia
+  mostrarConglomerados() {
     const conglomerados = [
       { lat: 1.253, lng: -77.287, nombre: "Bosque Alto Andino - Nariño" },
       { lat: 2.441, lng: -76.606, nombre: "Reserva Natural Munchique" },
@@ -79,35 +56,62 @@ export class Inicio implements AfterViewInit {
       { lat: 7.090, lng: -70.761, nombre: "Bosques del Vichada" }
     ];
 
-    // Ícono verde tipo forestal
-    const iconoBosque = {
-      url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png"
-    };
-
-    // Agregar marcadores simulados
-    conglomerados.forEach(c => {
-      new google.maps.Marker({
-        position: { lat: c.lat, lng: c.lng },
-        map: mapa,
-        title: c.nombre,
-        icon: iconoBosque
-      });
+    const icono = this.L.icon({
+      iconUrl: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
     });
 
-    /*
-      📌 AQUÍ IRÁ LA CONEXIÓN REAL CON TU BASE DE DATOS
-      -------------------------------------------------
-      En un próximo paso haremos:
+    conglomerados.forEach(c => {
+      const marker = this.L.marker([c.lat, c.lng], { icon: icono }).addTo(this.map);
 
-      1. Crear un servicio Angular: ConglomeradoService
-      2. Llamar a tu API backend (GET /conglomerados)
-      3. Reemplazar "conglomerados" (simulados) con los datos de BD
-      4. Añadir marcadores dinámicos al mapa según la respuesta
-
-      Ejemplo futuro:
-      this.conglomeradoService.obtenerConglomerados().subscribe(data => {
-        data.forEach(c => new google.maps.Marker(...));
+      // Tooltip al pasar mouse
+      marker.bindTooltip(`<b>${c.nombre}</b>`, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -15],
+        className: 'tooltip-bosque'
       });
-    */
+
+      // Click con zoom cinematográfico
+      marker.on('click', () =>
+        this.enfocarConglomerado(c.lat, c.lng, c.nombre, marker)
+      );
+    });
+  }
+
+  enfocarConglomerado(lat: number, lng: number, nombre: string, marker: any) {
+
+    // Eliminar círculo anterior
+    if (this.circle) {
+      this.map.removeLayer(this.circle);
+    }
+
+    // Crear círculo pero agregarlo más tarde para el efecto cinematográfico
+    this.circle = this.L.circle([lat, lng], {
+      color: '#007f00',
+      fillColor: '#39ff14',
+      fillOpacity: 0.25,
+      radius: 80
+    });
+
+    // 🌟 Zoom cinematográfico estilo dron
+    this.map.flyTo([lat, lng], 17, {
+      animate: true,
+      duration: 4.5,        // Lento y suave
+      easeLinearity: 0.08,  // Curva suave
+      noMoveStart: false
+    });
+
+    // 🎥 El círculo aparece 1.2s después para efecto "enfoque"
+    setTimeout(() => {
+      this.circle.addTo(this.map);
+    }, 1200);
+
+    // 🎥 Popup después del enfoque (más cinemático)
+    setTimeout(() => {
+      marker.bindPopup(`<b>${nombre}</b>`).openPopup();
+    }, 1800);
   }
 }

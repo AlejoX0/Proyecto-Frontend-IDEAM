@@ -1,24 +1,126 @@
+/* ======================================================
+    CONTENEDOR PRINCIPAL
+   ====================================================== */
+
 .pagina {
-  text-align: center;
+  width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  color: #e0e0e0;
-  background: #121212;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f0f9ff, #e0f7ea);
+  font-family: 'Segoe UI', sans-serif;
 
-  h1 {
-    margin-bottom: 10px;
-    color: #81c784;
-  }
-
-  p {
+  .header {
+    text-align: center;
     margin-bottom: 20px;
-    color: #bdbdbd;
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #0a4d3c;
+      margin-bottom: 6px;
+    }
+
+    p {
+      color: #385a5a;
+      font-size: 16px;
+    }
+  }
+}
+
+/* ======================================================
+    MAPA
+   ====================================================== */
+
+.map-container {
+  flex: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #0a4d3c;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+  #map.leaflet-container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ======================================================
+    TOOLTIP BOSQUE (hover)
+   ====================================================== */
+
+.tooltip-bosque {
+  background-color: #1b5e20 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 10px;
+  border: 1px solid #00c853;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+/* ======================================================
+    POPUP BOSQUE (click)
+   ====================================================== */
+
+.leaflet-popup-content-wrapper {
+  background: #1e1e1e !important;
+  color: #e8ffe8 !important;
+  border-radius: 10px !important;
+  border: 2px solid #00c853 !important;
+}
+
+.leaflet-popup-tip {
+  background: #00c853 !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: white !important;
+  font-size: 16px;
+}
+
+/* ======================================================
+    ANIMACIÓN POPUP
+   ====================================================== */
+
+@keyframes fadeInPopup {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.leaflet-popup {
+  animation: fadeInPopup 0.25s ease-out;
+}
+
+/* ======================================================
+    RESPONSIVE
+   ====================================================== */
+
+@media (max-width: 768px) {
+  .pagina {
+    padding: 10px;
   }
 
-  .mapa {
-    width: 100%;
-    height: 500px;
-    border-radius: 14px;
-    border: 1px solid #1b5e20;
-    box-shadow: 0px 4px 15px rgba(0, 255, 100, 0.25);
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .map-container {
+    border-width: 2px;
+  }
+
+  .tooltip-bosque {
+    font-size: 12px;
   }
 }
