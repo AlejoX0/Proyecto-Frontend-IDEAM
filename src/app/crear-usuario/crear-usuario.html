@@ -1,56 +1,78 @@
 <app-navbar></app-navbar>
 
-<div class="container">
-  <h2>Registro de Usuario</h2>
+<div class="usuario-page">
+  <div class="usuario-card">
+    <h2>Registro de Usuario</h2>
+    <p class="subtitle">
+      Crea nuevas cuentas para el sistema de Inventario Forestal Nacional.
+    </p>
 
-<!-- Mostrar mensaje de error si existe -->
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
-</div>
-
-<form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
-    <!-- Nombres -->
-    <label>Nombres:</label>
-    <input formControlName="nombre" placeholder="Ingrese nombres">
-
-    <!-- Apellidos -->
-    <label>Apellidos:</label>
-    <input formControlName="apellido" placeholder="Ingrese apellidos">
-
-    <!-- Número de documento -->
-    <label>Número de Documento:</label>
-    <input formControlName="nro_documento" type="number" placeholder="Ej: 1001234567">
-
-    <!-- Correo -->
-    <label>Correo electrónico:</label>
-    <input formControlName="correo" type="email" placeholder="usuario@correo.com">
-
-    <!-- Teléfono -->
-    <label>Teléfono:</label>
-    <input formControlName="telefono" type="number" placeholder="Ej: 3123456789">
-
-    <!-- Rol -->
-    <label>Rol:</label>
-    <select formControlName="rol">
-      <option value="administrador">Administrador</option>
-      <option value="jefe de brigada">Jefe de Brigada</option>
-      <option value="auxiliar de campo">Auxiliar de Campo</option>
-      <option value="botánico">Botánico</option>
-    </select>
-
-    <!-- Departamento -->
-    <label>Departamento:</label>
-    <input formControlName="departamento" placeholder="Ej: Santander">
-
-    <!-- Contraseña -->
-    <label>Contraseña temporal:</label>
-    <input formControlName="password" [disabled]="true">
-
-    <div class="form-actions">
-      <button type="submit" [disabled]="usuarioForm.invalid || isLoading">
-        <span *ngIf="!isLoading">Guardar Usuario</span>
-        <span *ngIf="isLoading">Guardando...</span>
-      </button>
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert error">
+      {{ errorMessage }}
     </div>
-  </form>
+
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="usuario-form">
+
+      <!-- Nombres -->
+      <div class="form-group">
+        <label>Nombres:</label>
+        <input formControlName="nombre" placeholder="Ingrese nombres">
+      </div>
+
+      <!-- Apellidos -->
+      <div class="form-group">
+        <label>Apellidos:</label>
+        <input formControlName="apellido" placeholder="Ingrese apellidos">
+      </div>
+
+      <!-- Número de documento -->
+      <div class="form-group">
+        <label>Número de Documento:</label>
+        <input formControlName="nro_documento" type="number" placeholder="Ej: 1001234567">
+      </div>
+
+      <!-- Correo -->
+      <div class="form-group">
+        <label>Correo electrónico:</label>
+        <input formControlName="correo" type="email" placeholder="usuario@correo.com">
+      </div>
+
+      <!-- Teléfono -->
+      <div class="form-group">
+        <label>Teléfono:</label>
+        <input formControlName="telefono" type="number" placeholder="Ej: 3123456789">
+      </div>
+
+      <!-- Rol -->
+      <div class="form-group">
+        <label>Rol:</label>
+        <select formControlName="rol">
+          <option value="administrador">Administrador</option>
+          <option value="jefe de brigada">Jefe de Brigada</option>
+          <option value="auxiliar de campo">Auxiliar de Campo</option>
+          <option value="botánico">Botánico</option>
+        </select>
+      </div>
+
+      <!-- Departamento -->
+      <div class="form-group">
+        <label>Departamento:</label>
+        <input formControlName="departamento" placeholder="Ej: Santander">
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label>Contraseña temporal:</label>
+        <input formControlName="password" [disabled]="true">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="usuarioForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Guardar Usuario</span>
+          <span *ngIf="isLoading">Guardando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

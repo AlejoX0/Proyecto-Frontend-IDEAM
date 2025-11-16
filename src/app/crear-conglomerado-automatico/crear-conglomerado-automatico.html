@@ -1,56 +1,47 @@
 <app-navbar></app-navbar>
 
-<div class="form-wrapper">
+<div class="page-bg">
   <div class="form-card">
-    
-    <h1>⚙️ Crear Conglomerado Automático</h1>
-    <p>Define la cantidad y la región para la generación automática.</p>
 
-    <form (ngSubmit)="generarConglomerados()" class="generar-form">
-      
+    <h1 class="title">⚙️ Crear Conglomerado Automático</h1>
+    <p class="subtitle">Genera múltiples conglomerados según cantidad y región seleccionada.</p>
+
+    <!-- Mensajes -->
+    <div *ngIf="mensajeExito" class="msg success">{{ mensajeExito }}</div>
+    <div *ngIf="mensajeError" class="msg error">{{ mensajeError }}</div>
+
+    <form (ngSubmit)="generarConglomerados()" class="form">
+
+      <!-- Cantidad -->
       <div class="form-group">
-        <label for="cantidad">Cantidad a Crear</label>
-        <input 
-          type="number" 
-          id="cantidad" 
-          placeholder="Ej: 50"
-          [(ngModel)]="cantidad"
-          name="cantidad"
-          min="1"
-          required>
+        <label>Cantidad a generar</label>
+        <input type="number"
+               placeholder="Ej: 50"
+               [(ngModel)]="cantidad"
+               name="cantidad"
+               min="1"
+               required>
       </div>
 
+      <!-- Región -->
       <div class="form-group">
-        <label for="region">Región</label>
-        <select 
-          id="region" 
-          [(ngModel)]="region"
-          name="region"
-          required
-          [class.invalid]="!region"> <option value="" disabled>-- Selecciona una región --</option>
-          
-          <option *ngFor="let depto of listaDepartamentos" [value]="depto">
-            {{ depto }}
+        <label>Región (Departamento)</label>
+        <select [(ngModel)]="region" name="region" required>
+          <option value="" disabled>-- Seleccione región --</option>
+          <option *ngFor="let d of listaDepartamentos" [value]="d">
+            {{ d }}
           </option>
         </select>
       </div>
 
-      <div *ngIf="mensajeExito" class="mensaje exito">
-        {{ mensajeExito }}
-      </div>
-      <div *ngIf="mensajeError" class="mensaje error">
-        {{ mensajeError }}
-      </div>
-
-      <button 
-        type="submit" 
-        class="btn-submit"
-        [disabled]="!cantidad || cantidad <= 0 || !region || cargando">
-        
+      <!-- Botón -->
+      <button type="submit" class="btn-submit" [disabled]="cargando">
         <span *ngIf="!cargando">🚀 Generar Conglomerados</span>
         <span *ngIf="cargando" class="spinner"></span>
-        <span *ngIf="cargando">Generando...</span>
+        <span *ngIf="cargando"> Generando...</span>
       </button>
+
     </form>
+
   </div>
 </div>

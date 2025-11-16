@@ -1,64 +1,75 @@
 <app-navbar></app-navbar>
 
-<div class="listar-wrapper">
-  <div class="listar-card">
-    <h2>🗺️ Listado de Conglomerados</h2>
+<div class="page-bg">
 
+  <div class="listar-card">
+
+    <h2>📋 Listado de Conglomerados</h2>
+    <p class="subtitle">Consulta, filtra y analiza la información registrada.</p>
+
+    <!-- CARGANDO -->
     <div *ngIf="cargando" class="loading">Cargando conglomerados...</div>
 
+    <!-- FILTROS -->
     <div *ngIf="!cargando && conglomerados.length > 0" class="filters-container">
-      
+
+      <!-- Filtro ID -->
       <div class="filter-group">
-        <label for="filtro-id">ID Conglomerado</label>
-        <input 
-          type="text" 
-          id="filtro-id" 
+        <label>ID Conglomerado</label>
+        <input
+          type="text"
           placeholder="Buscar por ID..."
           [(ngModel)]="filtros.id"
-          (input)="aplicarFiltros()">
-      </div>
-      
-      <div class="filter-group">
-        <label for="filtro-codigo">Código</label>
-        <input 
-          type="text" 
-          id="filtro-codigo" 
-          placeholder="Buscar por Código..."
-          [(ngModel)]="filtros.codigo"
-          (input)="aplicarFiltros()">
+          (input)="aplicarFiltros()"
+        />
       </div>
 
+      <!-- Filtro Código -->
       <div class="filter-group">
-        <label for="filtro-estado">Estado</label>
-        <select 
-          id="filtro-estado"
+        <label>Código</label>
+        <input
+          type="text"
+          placeholder="Código..."
+          [(ngModel)]="filtros.codigo"
+          (input)="aplicarFiltros()"
+        />
+      </div>
+
+      <!-- Filtro Estado -->
+      <div class="filter-group">
+        <label>Estado</label>
+        <select
           [(ngModel)]="filtros.estado"
-          (change)="aplicarFiltros()">
-          
+          (change)="aplicarFiltros()"
+        >
           <option value="">-- Todos --</option>
-          <option *ngFor="let estado of estadosUnicos" [value]="estado">
-            {{ estado | titlecase }} 
+          <option *ngFor="let es of estadosUnicos" [value]="es">
+            {{ es }}
           </option>
         </select>
       </div>
 
+      <!-- Filtro Brigada -->
       <div class="filter-group">
-        <label for="filtro-brigada">ID Brigada</label>
-        <input 
-          type="text" 
-          id="filtro-brigada"
-          placeholder="Buscar por ID..."
+        <label>ID Brigada</label>
+        <input
+          type="text"
+          placeholder="Buscar por brigada..."
           [(ngModel)]="filtros.brigada"
-          (input)="aplicarFiltros()">
+          (input)="aplicarFiltros()"
+        />
       </div>
 
-      <button (click)="limpiarFiltros()" class="btn-limpiar">
-        Limpiar
-      </button>
+      <!-- BOTÓN LIMPIAR -->
+      <button class="btn-limpiar" (click)="limpiarFiltros()">Limpiar ❌</button>
     </div>
 
-    <div *ngIf="!cargando && conglomerados.length > 0" class="table-wrapper">
-      <table class="conglomerado-table">
+    <!-- TABLA -->
+    <div
+      *ngIf="!cargando && conglomeradosFiltrados.length > 0"
+      class="table-wrapper"
+    >
+      <table>
         <thead>
           <tr>
             <th>ID</th>
@@ -66,28 +77,38 @@
             <th>Latitud</th>
             <th>Longitud</th>
             <th>Estado</th>
-            <th>Brigada Asignada</th>
+            <th>ID Brigada</th>
           </tr>
         </thead>
-        <tbody *ngIf="conglomeradosFiltrados.length > 0">
+
+        <tbody>
           <tr *ngFor="let c of conglomeradosFiltrados">
             <td>{{ c.id_conglomerado }}</td>
             <td>{{ c.codigo }}</td>
-            <td>{{ c.lat | number:'1.6-6' }}</td> 
-            <td>{{ c.lng | number:'1.6-6' }}</td>
-            <td>{{ c.estado | titlecase }}</td>
+            <td>{{ c.lat }}</td>
+            <td>{{ c.lng }}</td>
+            <td>{{ c.estado }}</td>
             <td>{{ c.id_brigada || '—' }}</td>
           </tr>
         </tbody>
       </table>
-
-      <div *ngIf="conglomeradosFiltrados.length === 0" class="empty-filtered">
-        No se encontraron conglomerados con esos filtros.
-      </div>
     </div>
 
-    <div *ngIf="!cargando && conglomerados.length === 0" class="empty">
+    <!-- SIN RESULTADOS FILTRADOS -->
+    <div
+      *ngIf="!cargando && conglomerados.length > 0 && conglomeradosFiltrados.length === 0"
+      class="empty-filtered"
+    >
+      No se encontraron resultados con los filtros aplicados.
+    </div>
+
+    <!-- SIN DATOS -->
+    <div
+      *ngIf="!cargando && conglomerados.length === 0"
+      class="empty"
+    >
       No hay conglomerados registrados.
     </div>
+
   </div>
 </div>

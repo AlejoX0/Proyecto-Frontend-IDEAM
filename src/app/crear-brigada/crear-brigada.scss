@@ -1,140 +1,106 @@
-/* Contenedor principal de la página */
-.main-container {
-  padding: 2rem;
-  background-color: #f4f7f6;
-  min-height: calc(100vh - 70px); // Ajusta según la altura de tu navbar
+/* ================================================================= */
+/*                     FONDO CON IMAGEN CORRECTO                     */
+/* ================================================================= */
+.page-wrapper {
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start; // Alinea la tarjeta al inicio
+  align-items: flex-start;
+  padding-top: 40px;
+
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),
+    url('/imagenes/brigadas.jpeg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Tarjeta principal del formulario */
-.card-content {
-  background-color: #ffffff;
-  padding: 2.5rem 3rem; // Más padding para un look más espacioso
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); // Sombra más pronunciada
-  max-width: 550px; // Ancho fijo para la tarjeta
-  width: 100%;
+/* ================================================================= */
+/*                   TARJETA DEL FORMULARIO                          */
+/* ================================================================= */
+.form-card {
+  width: 480px;
+  padding: 2.5rem;
+  background: #ffffffee;
+  border-radius: 1.4rem;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    0 12px 22px rgba(0, 0, 0, 0.18);
+
+  backdrop-filter: blur(4px);
 }
 
-/* Encabezado de la tarjeta */
-.card-header {
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 1.5rem;
-  margin-bottom: 2rem; // Más espacio debajo del encabezado
-
-  .card-title {
-    font-size: 2rem; // Título más grande
-    font-weight: 700; // Más negrita
-    color: #2c3e50; // Un gris oscuro para el texto
-    display: flex;
-    align-items: center;
-
-    .icon {
-      margin-right: 0.8rem;
-      font-size: 1.8rem; // Ícono un poco más grande
-      color: #00796b; // Color verde de tu marca
-    }
-  }
-
-  p {
-    font-size: 1rem;
-    color: #7f8c8d; // Gris suave para la descripción
-    margin-top: 0.75rem;
-  }
-}
-
-/* Estilos del formulario en sí */
-.brigada-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem; // Espacio entre grupos de formulario
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-
-  label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #34495e; // Texto de label más oscuro
-    margin-bottom: 0.6rem;
-  }
-
-  input[type="text"],
-  input[type="date"],
-  select {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #dcdcdc; // Borde más suave
-    border-radius: 8px; // Bordes redondeados
-    background-color: #f8f8f8; // Un fondo sutil
-    color: #333;
-    transition: all 0.2s ease-in-out; // Transición suave en foco
-
-    &:focus {
-      outline: none;
-      border-color: #00796b; // Verde de tu marca en foco
-      box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2); // Sombra sutil en foco
-      background-color: #fff;
-    }
-
-    &[readonly] {
-      background-color: #e9ecef; // Fondo para campos de solo lectura
-      cursor: not-allowed;
-    }
-
-    // Estilo para el placeholder
-    &::placeholder {
-      color: #b0b0b0;
-    }
-  }
-
-  // Estilo específico para selects (flecha)
-  select {
-    -webkit-appearance: none; // Elimina el estilo por defecto de la flecha en Chrome
-    -moz-appearance: none; // Elimina el estilo por defecto de la flecha en Firefox
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.1%203.4-14.1%209.7-2%206.3-.6%2013.9%203.8%2018.3l132.8%20132.8c1.3%201.3%203.3%201.9%205.2%201.9s3.9-.6%205.2-1.9L283.3%2091c4.4-4.4%205.8-12%203.8-18.3z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 0.7rem top 50%;
-    background-size: 0.65em auto;
-    padding-right: 2.5rem; // Espacio para la flecha personalizada
-  }
-}
-
-/* Estilo para mensajes de error de validación */
-.error-message {
-  color: #e74c3c; // Rojo para errores
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* Botón de guardar */
-.btn-primary {
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
+/* ================================================================= */
+/*                           TITULO                                  */
+/* ================================================================= */
+.form-title {
+  font-size: 2rem;
   font-weight: 700;
-  color: #fff;
-  background-color: #00796b; // Verde de tu marca
+  color: #0d4c2f;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-subtitle {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #1f523a;
+  margin-bottom: 1.5rem;
+}
+
+/* ================================================================= */
+/*                    INPUTS Y SELECTS ESTILIZADOS                   */
+/* ================================================================= */
+label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #155d27;
+  margin-top: 1rem;
+  display: block;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #b3d9b3;
+  background-color: #fafafa;
+  margin-top: 5px;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 6px rgba(46, 204, 113, 0.5);
+  outline: none;
+}
+
+/* ================================================================= */
+/*                       BOTÓN PRINCIPAL                             */
+/* ================================================================= */
+.form-card button {
+  width: 100%;
+  background-color: #2e8b57;
+  color: white;
+  padding: 12px;
+  margin-top: 2rem;
   border: none;
   border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  margin-top: 1rem; // Espacio superior
+  transition: 0.25s;
+}
 
-  &:hover:not([disabled]) {
-    background-color: #005a4e; // Tono más oscuro al pasar el ratón
-    box-shadow: 0 4px 10px rgba(0, 121, 107, 0.3);
-  }
-
-  &[disabled] {
-    background-color: #a7d9d2; // Tono más claro cuando está deshabilitado
-    cursor: not-allowed;
-    opacity: 0.8;
-  }
+.form-card button:hover {
+  background-color: #256f47;
 }

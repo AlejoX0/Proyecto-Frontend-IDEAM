@@ -1,37 +1,47 @@
 <app-navbar></app-navbar>
 
-<div class="container">
-  <h2>Gestión de Usuarios</h2>
+<div class="page-bg">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nro Documento</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Rol</th>
-        <th>Departamento</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
+  <div class="card-eliminar">
 
-    <tbody>
-      <tr *ngFor="let usuario of usuarios">
-        <td>{{ usuario.nro_documento }}</td>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.apellido }}</td>
-        <td>{{ usuario.correo }}</td>
-        <td>{{ usuario.telefono }}</td>
-        <td>{{ usuario.rol }}</td>
-        <td>{{ usuario.departamento }}</td>
-        <td>
-          <button class="btn-eliminar" (click)="eliminarUsuario(usuario._id!)">
-            🗑️ Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <h2>🧹 Eliminar Usuarios</h2>
+    <p class="subtitle">Selecciona un usuario para eliminarlo del sistema.</p>
+
+    <!-- Lista vacía -->
+    <div *ngIf="usuarios.length === 0" class="empty">
+      No hay usuarios registrados.
+    </div>
+
+    <!-- Tabla -->
+    <div *ngIf="usuarios.length > 0" class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let u of usuarios">
+            <td>{{ u.nro_documento }}</td>
+            <td>{{ u.nombre }} {{ u.apellido }}</td>
+            <td>{{ u.correo }}</td>
+            <td>{{ u.rol }}</td>
+
+            <td>
+              <button class="btn-eliminar" (click)="eliminarUsuario(u._id)">
+                Eliminar ❌
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
 </div>

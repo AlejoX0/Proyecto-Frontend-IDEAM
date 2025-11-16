@@ -1,59 +1,49 @@
 <app-navbar></app-navbar>
 
-<div class="main-container">
-  <div class="card-content">
-    <div class="card-header">
-      <h2 class="card-title">
-        <span class="icon">🧑‍🤝‍🧑</span> Registro de Brigada
-      </h2>
-      <p>Completa el formulario para registrar una nueva brigada y asignarle sus miembros.</p>
-    </div>
+<div class="page-wrapper">
+  <div class="form-card">
 
-    <form [formGroup]="brigadaForm" (ngSubmit)="onSubmit()" class="brigada-form">
+    <h1 class="form-title">🛠 Crear Brigada</h1>
+    <p class="form-subtitle">Registra una nueva brigada asignando líder y conglomerado.</p>
 
-      <div class="form-group">
-        <label for="departamento">Departamento</label>
-        <select id="departamento" formControlName="departamento">
-          <option [ngValue]="null" disabled selected>Seleccione un departamento</option>
-          <option *ngFor="let d of departamentos" [ngValue]="d">{{ d }}</option>
-        </select>
-        <div *ngIf="brigadaForm.get('departamento')?.invalid && brigadaForm.get('departamento')?.touched" class="error-message">
-          Debe seleccionar un departamento.
-        </div>
-      </div>
+    <form [formGroup]="brigadaForm" (ngSubmit)="onSubmit()">
 
-      <div class="form-group">
-        <label for="lider">Líder de Brigada</label>
-        <select id="lider" formControlName="lider">
-          <option [ngValue]="null" disabled selected>Seleccione un líder</option>
-          <option *ngFor="let l of lideres" [ngValue]="l.nro_documento">
-            {{ l.nombre }} {{ l.apellido || '' }}
-          </option>
-        </select>
-        <div *ngIf="brigadaForm.get('lider')?.invalid && brigadaForm.get('lider')?.touched" class="error-message">
-          Debe seleccionar un líder de brigada.
-        </div>
-      </div>
+      <!-- DEPARTAMENTO -->
+      <label>Departamento:</label>
+      <select formControlName="departamento">
+        <option value="" disabled selected>Seleccione un departamento</option>
+        <option *ngFor="let dep of departamentos" [value]="dep">
+          {{ dep }}
+        </option>
+      </select>
 
-      <div class="form-group">
-        <label for="conglomerado">Conglomerado Asignado</label>
-        <select id="conglomerado" formControlName="id_conglomerado">
-          <option [ngValue]="null" disabled selected>Seleccione un conglomerado</option>
-          <option *ngFor="let c of conglomerados" [ngValue]="c.id_conglomerado">{{ c.codigo }}</option>
-        </select>
-        <div *ngIf="brigadaForm.get('id_conglomerado')?.invalid && brigadaForm.get('id_conglomerado')?.touched" class="error-message">
-          Debe seleccionar un conglomerado.
-        </div>
-      </div>
+      <!-- CONGLOMERADO -->
+      <label>Conglomerado:</label>
+      <select formControlName="id_conglomerado">
+        <option value="" disabled selected>Seleccione un conglomerado</option>
+        <option *ngFor="let c of conglomerados" [value]="c.id_conglomerado">
+          {{ c.id_conglomerado }} — {{ c.departamento }}
+        </option>
+      </select>
 
-      <div class="form-group">
-        <label for="fecha">Fecha de Asignación</label>
-        <input id="fecha" type="date" formControlName="fecha_asignacion" readonly>
-      </div>
+      <!-- LÍDER -->
+      <label>Líder de Brigada:</label>
+      <select formControlName="lider">
+        <option value="" disabled selected>Seleccione un líder</option>
+        <option *ngFor="let l of lideres" [value]="l.id">
+          {{ l.nombre }} {{ l.apellido }} — {{ l.nro_documento }}
+        </option>
+      </select>
 
-      <button type="submit" [disabled]="brigadaForm.invalid" class="btn-primary">
-        💾 Guardar Brigada
+      <!-- FECHA -->
+      <label>Fecha Asignación:</label>
+      <input formControlName="fecha_asignacion" type="date">
+
+      <!-- BOTÓN -->
+      <button type="submit">
+        Crear Brigada
       </button>
+
     </form>
   </div>
 </div>

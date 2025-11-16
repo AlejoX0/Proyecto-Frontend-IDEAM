@@ -1,30 +1,35 @@
 <app-navbar></app-navbar>
 
-<div class="listar-wrapper">
+<div class="listar-page">
   <div class="listar-card">
-    <h2>🧾 Listado de Brigadas</h2>
 
+    <h2 class="title">🧾 Listado de Brigadas</h2>
+
+    <!-- Cargando -->
     <div *ngIf="cargando" class="loading">Cargando brigadas...</div>
 
+    <!-- Filtros -->
     <div *ngIf="!cargando && brigadas.length > 0" class="filters-container">
-      
+
+      <!-- ID -->
       <div class="filter-group">
         <label for="filtro-id">ID Brigada</label>
         <input 
-          type="text" 
-          id="filtro-id" 
+          type="text"
+          id="filtro-id"
           placeholder="Buscar por ID..."
           [(ngModel)]="filtros.id"
           (input)="aplicarFiltros()">
       </div>
-      
+
+      <!-- Departamento -->
       <div class="filter-group">
         <label for="filtro-depto">Departamento</label>
-        <select 
+        <select
           id="filtro-depto"
           [(ngModel)]="filtros.departamento"
           (change)="aplicarFiltros()">
-          
+
           <option value="">-- Todos --</option>
           <option *ngFor="let depto of departamentosUnicos" [value]="depto">
             {{ depto }}
@@ -32,57 +37,55 @@
         </select>
       </div>
 
+      <!-- Fecha -->
       <div class="filter-group">
         <label for="filtro-fecha">Fecha Asignación</label>
-        <input 
-          type="date" 
+        <input
+          type="date"
           id="filtro-fecha"
           [(ngModel)]="filtros.fecha"
           (change)="aplicarFiltros()">
       </div>
 
-      <div class="filter-group">
-        <label for="filtro-conglom">Conglomerado</label>
-        <input 
-          type="text" 
-          id="filtro-conglom"
-          placeholder="Buscar por ID..."
-          [(ngModel)]="filtros.conglomerado"
-          (input)="aplicarFiltros()">
-      </div>
-
-      <button (click)="limpiarFiltros()" class="btn-limpiar">
-        Limpiar
+      <!-- Botón limpiar -->
+      <button class="btn-limpiar" (click)="limpiarFiltros()">
+        Limpiar filtros
       </button>
     </div>
 
-    <div *ngIf="!cargando && brigadas.length > 0" class="table-wrapper">
-      <table class="brigada-table">
+    <!-- Tabla -->
+    <div class="table-wrapper" *ngIf="!cargando && brigadasFiltradas.length > 0">
+      <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>ID Brigada</th>
             <th>Departamento</th>
-            <th>Fecha de Asignación</th>
-            <th>Conglomerado Asignado</th>
+            <th>Conglomerado</th>
+            <th>Líder</th>
+            <th>Fecha Asignación</th>
           </tr>
         </thead>
-        <tbody *ngIf="brigadasFiltradas.length > 0">
+
+        <tbody>
           <tr *ngFor="let b of brigadasFiltradas">
             <td>{{ b.id_brigada }}</td>
-            <td>{{ b.departamento || '—' }}</td>
-            <td>{{ b.fecha_asignacion | date: 'yyyy-MM-dd' }}</td>
-            <td>{{ b.id_conglomerado || '—' }}</td>
+            <td>{{ b.departamento }}</td>
+            <td>{{ b.id_conglomerado }}</td>
+            <td>{{ b.lider }}</td>
+            <td>{{ b.fecha_asignacion }}</td>
           </tr>
         </tbody>
       </table>
-
-      <div *ngIf="brigadasFiltradas.length === 0" class="empty-filtered">
-        No se encontraron brigadas con esos filtros.
-      </div>
     </div>
 
+    <!-- Mensajes si no hay registros -->
     <div *ngIf="!cargando && brigadas.length === 0" class="empty">
       No hay brigadas registradas.
     </div>
+
+    <div *ngIf="!cargando && brigadas.length > 0 && brigadasFiltradas.length === 0" class="empty-filtered">
+      No hay brigadas que coincidan con los filtros.
+    </div>
+
   </div>
 </div>
