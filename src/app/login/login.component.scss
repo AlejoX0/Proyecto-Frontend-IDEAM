@@ -1,50 +1,96 @@
+/* ================================================================= */
+/*                       FONDO CON IMAGEN                            */
+/* ================================================================= */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #006400, #228b22, #32cd32);
-  background-size: 400% 400%;
-  animation: gradientMove 8s ease infinite;
+
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)),
+    url('/imagenes/login.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+/* ================================================================= */
+/*                         CARD PRINCIPAL                            */
+/* ================================================================= */
 .login-card {
-  background: #fff;
+  width: 430px;
   padding: 3rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  width: 400px;
+  background: #ffffffee;
+  border-radius: 1.4rem;
+
+  /* Sombra profesional GOV.CO */
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    0 12px 22px rgba(0, 0, 0, 0.18);
+
+  backdrop-filter: blur(4px);
   text-align: center;
 }
 
-h1 {
-  color: #1b5e20;
-  margin-bottom: 0.5rem;
-  font-size: 1.8rem;
+/* ================================================================= */
+/*                         CABECERA MODERNA                          */
+/* ================================================================= */
+.title-box {
+  margin-bottom: 1rem;
 }
 
-p {
-  color: #555;
-  margin-bottom: 1.5rem;
+.title-box h1 {
+  font-size: 1.9rem;
+  color: #155d27;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
 }
 
-.full-width {
-  width: 100%;
+.subtitle {
+  font-size: 0.9rem;
+  color: #3c7640;
+  letter-spacing: 0.5px;
 }
 
-.error {
-  color: red;
-  margin-top: 1rem;
+.description {
+  margin-bottom: 2rem;
+  color: #444;
+  font-size: 1rem;
 }
 
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* ================================================================= */
+/*                 INPUTS MEJORADOS (diseño elevado)                 */
+/* ================================================================= */
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.enhanced-input mat-label {
+  font-weight: 500;
+}
+
+.enhanced-input .mat-mdc-text-field-wrapper {
+  border-radius: 10px !important;
+}
+
+.enhanced-input .mdc-text-field--outlined {
+  background-color: #fafafa;
+  border-radius: 10px !important;
+  transition: 0.25s;
+}
+
+/* Borde al enfocar */
+.enhanced-input .mdc-notched-outline__leading,
+.enhanced-input .mdc-notched-outline__notch,
+.enhanced-input .mdc-notched-outline__trailing {
+  border-width: 2px !important;
+  border-color: #b5b5b5 !important;
+}
+
+.enhanced-input .mdc-text-field--focused .mdc-notched-outline__leading,
+.enhanced-input .mdc-text-field--focused .mdc-notched-outline__notch,
+.enhanced-input .mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #155d27 !important;
 }
