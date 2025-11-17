@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export interface Herramienta {
@@ -35,6 +36,15 @@ export class HerramientaService {
   }
 
   listar(): Observable<Herramienta[]> {
-    return this.http.get<Herramienta[]>(this.baseUrl, { headers: this.getHeaders() });
+    return this.http
+      .get<{ herramientas?: Herramienta[] } | Herramienta[]>(this.baseUrl, { headers: this.getHeaders() })
+      .pipe(
+        map((response) => {
+          if (Array.isArray(response)) {
+            return response;
+          }
+          return response?.herramientas ?? [];
+        })
+      );
   }
 }

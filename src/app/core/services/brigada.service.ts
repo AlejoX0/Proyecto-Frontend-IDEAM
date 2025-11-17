@@ -57,13 +57,23 @@ export class BrigadaService {
 
   agregarAuxiliar(id_brigada: number, id_auxiliar: number): Observable<any> {
     const headers = this.getHeaders();
-    const url = `${this.baseUrl}/${id_brigada}/auxiliares`;
-    return this.http.post(url, { id_auxiliar }, { headers });
+    const url = `${environment.apiBrigadasUrl}/api/usuario-brigada`;
+    const payload = {
+      id_usuario: id_auxiliar,
+      id_brigada,
+      rol_en_brigada: 'auxiliar de campo'
+    };
+    return this.http.post(url, payload, { headers });
   }
 
   agregarHerramienta(id_brigada: number, id_herramienta: number): Observable<any> {
     const headers = this.getHeaders();
-    const url = `${this.baseUrl}/${id_brigada}/herramientas`;
-    return this.http.post(url, { id_herramienta }, { headers });
+    const url = `${environment.apiBrigadasUrl}/api/herramientas/uso`;
+    const payload = {
+      id_brigada,
+      id_herramienta,
+      estado: 'activo'
+    };
+    return this.http.post(url, payload, { headers });
   }
 }

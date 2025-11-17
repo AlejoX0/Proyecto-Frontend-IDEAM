@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Usuario {
   id: string;
@@ -25,7 +26,7 @@ export class AuthService {
   private router = inject(Router);
 
   // 🔹 URL base del backend (ajustada a tu servicio real)
-  private apiUrl = 'http://localhost:3001/api/auth';
+  private apiUrl = environment.apiAuthUrl;
 
   // 🔹 LOGIN: guarda token y usuario
   login(correo: string, password: string): Observable<LoginResponse> {
@@ -73,3 +74,4 @@ export class AuthService {
     return usuario ? roles.includes(usuario.rol.toLowerCase()) : false;
   }
 }
+

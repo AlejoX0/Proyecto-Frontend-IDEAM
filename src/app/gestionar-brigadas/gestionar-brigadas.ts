@@ -72,7 +72,7 @@ export class GestionarBrigadas implements OnInit {
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    const url = `${environment.apiAuthUrl}/api/auth/usuarios`;
+    const url = `${environment.apiAuthUrl}/usuarios`;
     this.http.get<UsuarioAuth[]>(url, { headers }).subscribe({
       next: (usuarios) => {
         this.auxiliares = usuarios.filter(
