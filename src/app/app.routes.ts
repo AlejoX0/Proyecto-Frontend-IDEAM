@@ -47,6 +47,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./listar-brigadas/listar-brigadas').then((m) => m.ListarBrigadas),
   },
+  {
+    path: 'gestionar-brigadas',
+    loadComponent: () =>
+      import('./gestionar-brigadas/gestionar-brigadas').then((m) => m.GestionarBrigadas),
+  },
 
   // 🌲 CONGLOMERADOS
   

@@ -1,0 +1,193 @@
+.gestion-brigadas {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #1f2a37;
+
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    p {
+      margin: 0.25rem 0 0;
+      color: #4b5563;
+    }
+  }
+
+  .estado {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    &.info {
+      background: #eff6ff;
+      color: #1e40af;
+    }
+    &.error {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+    &.exito {
+      background: #ecfdf5;
+      color: #047857;
+    }
+  }
+
+  .tabla-contenedor {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background: #0f172a;
+        color: #fff;
+
+        th {
+          text-align: left;
+          padding: 1rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+        }
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #e5e7eb;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        td {
+          padding: 0.9rem 1rem;
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-size: 0.95rem;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  }
+
+  &.primario {
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    color: #fff;
+  }
+
+  &.secundario {
+    background: #e0e7ff;
+    color: #1e1b4b;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  position: relative;
+  background: #fff;
+  border-radius: 1.25rem;
+  width: min(600px, 100%);
+  padding: 2rem;
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25);
+
+  h2 {
+    margin: 0 0 0.25rem;
+  }
+
+  .subtitulo {
+    margin: 0 0 1.5rem;
+    color: #6b7280;
+  }
+}
+
+.cerrar {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  border: none;
+  background: transparent;
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  label {
+    font-weight: 600;
+  }
+}
+
+.dropdown {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+
+  select {
+    flex: 1;
+    border-radius: 999px;
+    border: 1px solid #cbd5f5;
+    padding: 0.55rem 1rem;
+    font-size: 0.95rem;
+    background: #f8fafc;
+  }
+}
+
+@media (max-width: 768px) {
+  .gestion-brigadas {
+    padding: 1.25rem;
+  }
+
+  .tabla-contenedor {
+    overflow-x: auto;
+  }
+
+  .dropdown {
+    flex-direction: column;
+
+    select,
+    .btn {
+      width: 100%;
+    }
+  }
+}
