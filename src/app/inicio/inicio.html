@@ -8,4 +8,117 @@
 
   <!-- CONTENEDOR DEL MAPA -->
   <div id="map" class="map-container"></div>
+
+  <div class="info-panels">
+    <div class="info-column">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2>Conglomerado seleccionado</h2>
+          <span *ngIf="selectedConglomerado">#{{ selectedConglomerado?.id_conglomerado }}</span>
+        </div>
+
+        <div *ngIf="infoCargando" class="panel-state">Cargando información...</div>
+        <div *ngIf="infoError" class="panel-state error">{{ infoError }}</div>
+
+        <ng-container *ngIf="!infoCargando && !infoError">
+          <div *ngIf="selectedConglomerado; else sinSeleccion">
+            <div class="detalle-grid">
+              <div>
+                <span>Código</span>
+                <strong>{{ selectedConglomerado?.codigo }}</strong>
+              </div>
+              <div>
+                <span>Estado</span>
+                <strong class="badge">{{ selectedConglomerado?.estado }}</strong>
+              </div>
+              <div>
+                <span>Región</span>
+                <strong>{{ selectedConglomerado?.ubicacion?.region || 'Sin dato' }}</strong>
+              </div>
+              <div>
+                <span>Lat / Lng</span>
+                <strong>
+                  {{ selectedConglomerado?.ubicacion?.lat | number:'1.2-2' }},
+                  {{ selectedConglomerado?.ubicacion?.lng | number:'1.2-2' }}
+                </strong>
+              </div>
+              <div>
+                <span>Fecha inicio</span>
+                <strong>{{ selectedConglomerado?.fecha_inicio | date:'mediumDate' }}</strong>
+              </div>
+              <div>
+                <span>Fecha fin</span>
+                <strong>{{ selectedConglomerado?.fecha_fin ? (selectedConglomerado?.fecha_fin | date:'mediumDate') : 'En proceso' }}</strong>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #sinSeleccion>
+          <p class="panel-state">Selecciona un marcador en el mapa para ver los detalles.</p>
+        </ng-template>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3>Subparcelas registradas</h3>
+          <span *ngIf="selectedSubparcelas.length">Total: {{ selectedSubparcelas.length }}</span>
+        </div>
+
+        <div *ngIf="!selectedSubparcelas.length" class="panel-state">
+          Selecciona un conglomerado para visualizar sus subparcelas.
+        </div>
+
+        <div *ngIf="selectedSubparcelas.length">
+          <ul class="resumen-subparcelas">
+            <li *ngFor="let resumen of subparcelasResumen">
+              <span>{{ resumen.categoria | titlecase }}</span>
+              <strong>{{ resumen.total }}</strong>
+            </li>
+          </ul>
+
+          <div class="tabla-subparcelas">
+            <div class="tabla-header">
+              <span>ID</span>
+              <span>Categoría</span>
+              <span>Radio (m)</span>
+            </div>
+            <div class="tabla-row" *ngFor="let sp of selectedSubparcelas | slice:0:6">
+              <span>#{{ sp.id_subparcela }}</span>
+              <span>{{ sp.categoria | titlecase }}</span>
+              <span>{{ sp.radio }}</span>
+            </div>
+            <p class="nota" *ngIf="selectedSubparcelas.length > 6">
+              Mostrando las primeras 6 subparcelas. Consulta el módulo de subparcelas para más detalles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-column">
+      <div class="panel-card history-card">
+        <div class="panel-header">
+          <h3>Historial reciente</h3>
+        </div>
+
+        <div *ngIf="historialCargando" class="panel-state">Cargando historial...</div>
+        <div *ngIf="historialError" class="panel-state error">{{ historialError }}</div>
+
+        <ul class="timeline" *ngIf="!historialCargando && !historialError && historial.length">
+          <li *ngFor="let registro of historial">
+            <div class="timeline-title">{{ registro.accion | titlecase }}</div>
+            <p>{{ registro.detalle || 'Sin detalle adicional.' }}</p>
+            <small>
+              Responsable: {{ registro.admin_correo }} · {{ registro.fecha | date:'short' }}
+            </small>
+          </li>
+        </ul>
+
+        <div *ngIf="!historialCargando && !historialError && !historial.length" class="panel-state">
+          No hay movimientos recientes.
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

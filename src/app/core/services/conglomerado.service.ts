@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Subparcela } from './subparcela.service';
 
 export interface Conglomerado {
   id_conglomerado?: number;
@@ -12,7 +13,7 @@ export interface Conglomerado {
   coordenadas: string;
 }
 
-// ➕ NUEVA INTERFAZ SOLO PARA EL MAPA
+// Datos reducidos cuando solo necesitamos pintar el mapa
 export interface ConglomeradoMapa {
   id_conglomerado: number;
   codigo: string;
@@ -21,6 +22,38 @@ export interface ConglomeradoMapa {
   estado: string;
   fecha_inicio: string | null;
   fecha_fin: string | null;
+  ubicacion?: {
+    lat: number;
+    lng: number;
+    region?: string;
+    departamento?: string;
+  };
+  departamento?: string;
+  municipio?: string;
+  vereda?: string;
+}
+
+// Detalle completo entregado por /api/conglomerados/:id
+export interface ConglomeradoDetalle {
+  id_conglomerado: number;
+  codigo: string;
+  estado: string;
+  fecha_inicio?: string | null;
+  fecha_fin?: string | null;
+  ubicacion?: {
+    lat: number;
+    lng: number;
+    region?: string;
+    departamento?: string;
+  };
+  departamento?: string;
+  municipio?: string;
+  vereda?: string;
+}
+
+export interface ConglomeradoDetalleResponse {
+  conglomerado: ConglomeradoDetalle;
+  subparcelas: Subparcela[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -39,23 +72,28 @@ export class ConglomeradoService {
     };
   }
 
-  // 🔹 Crear manualmente
+  // Crear manualmente
   crearManual(data: Conglomerado): Observable<any> {
     return this.http.post(`${this.apiUrl}/manual`, data, this.headers());
   }
 
-  // 🔹 Crear automáticamente
+  // Crear automáticamente
   crearAutomatico(params: any = {}): Observable<any> {
     return this.http.post(`${this.apiUrl}/auto`, params, this.headers());
   }
 
-  // 🔹 Listar todos (estructura original)
+  // Listar todos (estructura original)
   listar(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl, this.headers());
   }
 
-  // 🔹 LISTAR PARA MAPA (lat, lng)
+  // Listar solo lo necesario para el mapa
   listarMapa(): Observable<ConglomeradoMapa[]> {
     return this.http.get<ConglomeradoMapa[]>(this.apiUrl, this.headers());
+  }
+
+  // Detalle con subparcelas incluidas
+  detalle(id: number): Observable<ConglomeradoDetalleResponse> {
+    return this.http.get<ConglomeradoDetalleResponse>(`${this.apiUrl}/${id}`, this.headers());
   }
 }
