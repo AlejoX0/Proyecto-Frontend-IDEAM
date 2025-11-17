@@ -1,26 +1,40 @@
 .asignar-wrapper {
+  min-height: calc(100vh - 70px);
+  padding: 40px 20px;
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url('/imagenes/conglomerado.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 15px;
-  background-color: #f1f5f9;
-  min-height: 100vh;
 }
 
 .asignar-card {
   background: white;
   width: 100%;
   max-width: 600px;
-  padding: 30px 25px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.3s ease-in-out;
+  padding: 35px 30px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  animation: fadeIn 0.35s ease-out;
 
   h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 8px;
     color: #065f46;
+    font-size: 1.9rem;
     font-weight: 700;
+  }
+
+  .sub {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #3d4c47;
   }
 
   .form-group {
@@ -34,20 +48,22 @@
       color: #065f46;
     }
 
-    select, input {
+    select,
+    input {
       border: 1px solid #bdbdbd;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 0.95rem;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
       background: #fafafa;
-      transition: 0.2s;
+      transition: 0.25s;
     }
 
-    select:focus, input:focus {
+    select:focus,
+    input:focus {
       outline: none;
       border-color: #047857;
-      background: #fff;
-      box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.2);
     }
   }
 
@@ -56,27 +72,27 @@
     background: linear-gradient(90deg, #047857, #059669);
     border: none;
     color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 12px;
-    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px;
+    border-radius: 12px;
     cursor: pointer;
     transition: 0.25s;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
-  button:hover {
+  button:hover:not(:disabled) {
     background: linear-gradient(90deg, #065f46, #047857);
     transform: scale(1.02);
   }
 
   button:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
