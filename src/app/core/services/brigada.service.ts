@@ -54,4 +54,16 @@ export class BrigadaService {
     const url = `${this.baseUrl}/${id_brigada}/conglomerado`;
     return this.http.put(url, data, { headers });
   }
+
+  agregarAuxiliar(id_brigada: number, id_auxiliar: number): Observable<any> {
+    const headers = this.getHeaders();
+    const url = `${this.baseUrl}/${id_brigada}/auxiliares`;
+    return this.http.post(url, { id_auxiliar }, { headers });
+  }
+
+  agregarHerramienta(id_brigada: number, id_herramienta: number): Observable<any> {
+    const headers = this.getHeaders();
+    const url = `${this.baseUrl}/${id_brigada}/herramientas`;
+    return this.http.post(url, { id_herramienta }, { headers });
+  }
 }

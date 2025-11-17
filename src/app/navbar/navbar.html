@@ -39,8 +39,9 @@
         </button>
         <div class="dropdown-content" [class.show]="activeDropdown === 'brigadas'">
           <a *ngIf="esAdmin()" routerLink="/crear-brigada" (click)="closeMenu()">Crear brigada</a>
-          <a *ngIf="esJefe()" routerLink="/asignar-conglomerado" (click)="closeMenu()">Asignar conglomerado</a>
-          <a routerLink="/listar-brigadas" (click)="closeMenu()">Listar brigadas</a>
+          <a *ngIf="esAdmin()" routerLink="/asignar-conglomerado" (click)="closeMenu()">Asignar conglomerado</a>
+          <a *ngIf="esAdmin() || esJefe()" routerLink="/gestionar-brigadas" (click)="closeMenu()">Gestionar brigadas</a>
+          <a *ngIf="esAdmin() || esJefe()" routerLink="/listar-brigadas" (click)="closeMenu()">Listar brigadas</a>
         </div>
       </li>
 
