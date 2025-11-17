@@ -35,6 +35,12 @@
   }
 }
 
+.acciones-superiores {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
 /* ESTADOS */
 .estado {
   padding: 12px 15px;
@@ -182,6 +188,40 @@
     border: 1px solid #cfd8dc;
     background: #f8fafc;
   }
+}
+
+.formulario-herramienta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    font-weight: 600;
+    color: #264138;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  input,
+  textarea {
+    border: 1px solid #cfd8dc;
+    border-radius: 10px;
+    padding: 10px;
+    background: #f8fafc;
+    font: inherit;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+.acciones-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 @keyframes fadeIn {

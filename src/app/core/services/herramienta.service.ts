@@ -9,6 +9,13 @@ export interface Herramienta {
   nombre: string;
   descripcion?: string;
   estado?: string;
+  cantidad_disponible?: number;
+}
+
+export interface CrearHerramientaDto {
+  nombre: string;
+  descripcion: string;
+  cantidad_disponible: number;
 }
 
 @Injectable({
@@ -46,5 +53,9 @@ export class HerramientaService {
           return response?.herramientas ?? [];
         })
       );
+  }
+
+  crear(data: CrearHerramientaDto): Observable<Herramienta> {
+    return this.http.post<Herramienta>(this.baseUrl, data, { headers: this.getHeaders() });
   }
 }

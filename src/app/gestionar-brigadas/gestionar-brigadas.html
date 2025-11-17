@@ -14,6 +14,12 @@
       No hay brigadas registradas.
     </div>
 
+    <div class="acciones-superiores">
+      <button class="btn primario" type="button" (click)="abrirFormularioHerramientas()">
+        Herramientas
+      </button>
+    </div>
+
     <!-- TABLA DE BRIGADAS -->
     <div class="table-wrapper" *ngIf="!cargando && brigadas.length">
 
@@ -116,3 +122,43 @@
   </div>
 
 </section>
+
+<!-- Modal Herramientas -->
+<div class="modal-backdrop" *ngIf="mostrarFormularioHerramienta">
+  <div class="modal">
+    <button class="cerrar" (click)="cerrarFormularioHerramientas()">&times;</button>
+
+    <h2>Nueva herramienta</h2>
+    <p class="subtitulo">
+      Completa la información para registrar una herramienta disponible.
+    </p>
+
+    <form class="formulario-herramienta" (ngSubmit)="crearHerramienta()">
+      <label>
+        Nombre
+        <input type="text" name="nombreHerramienta" [(ngModel)]="nuevaHerramienta.nombre" placeholder="Ej. Cinta métrica" required />
+      </label>
+
+      <label>
+        Descripción
+        <textarea name="descripcionHerramienta" [(ngModel)]="nuevaHerramienta.descripcion" rows="3" placeholder="Describe el uso y estado" required></textarea>
+      </label>
+
+      <label>
+        Cantidad disponible
+        <input type="number" name="cantidadDisponible" min="0" [(ngModel)]="nuevaHerramienta.cantidad_disponible" required />
+      </label>
+
+      <div class="estado"
+           *ngIf="mensajeHerramienta"
+           [ngClass]="{ 'exito': tipoMensajeHerramienta === 'exito', 'error': tipoMensajeHerramienta === 'error' }">
+        {{ mensajeHerramienta }}
+      </div>
+
+      <div class="acciones-form">
+        <button class="btn secundario" type="button" (click)="cerrarFormularioHerramientas()">Cancelar</button>
+        <button class="btn primario" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

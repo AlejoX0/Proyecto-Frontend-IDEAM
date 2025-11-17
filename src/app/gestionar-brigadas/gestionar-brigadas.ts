@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { BrigadaService } from '../core/services/brigada.service';
-import { Herramienta, HerramientaService } from '../core/services/herramienta.service';
+import { CrearHerramientaDto, Herramienta, HerramientaService } from '../core/services/herramienta.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -33,9 +33,17 @@ export class GestionarBrigadas implements OnInit {
   selectedBrigada: any | null = null;
   auxiliarSeleccionado = '';
   herramientaSeleccionada = '';
+  mostrarFormularioHerramienta = false;
+  nuevaHerramienta: CrearHerramientaDto = {
+    nombre: '',
+    descripcion: '',
+    cantidad_disponible: 0
+  };
 
   mensaje = '';
   tipoMensaje: 'exito' | 'error' | '' = '';
+  mensajeHerramienta = '';
+  tipoMensajeHerramienta: 'exito' | 'error' | '' = '';
 
   constructor(
     private brigadaService: BrigadaService,
@@ -110,6 +118,26 @@ export class GestionarBrigadas implements OnInit {
     this.tipoMensaje = '';
   }
 
+  abrirFormularioHerramientas(): void {
+    this.mostrarFormularioHerramienta = true;
+    this.resetFormularioHerramienta();
+  }
+
+  cerrarFormularioHerramientas(): void {
+    this.mostrarFormularioHerramienta = false;
+    this.resetFormularioHerramienta();
+  }
+
+  private resetFormularioHerramienta(): void {
+    this.nuevaHerramienta = {
+      nombre: '',
+      descripcion: '',
+      cantidad_disponible: 0
+    };
+    this.mensajeHerramienta = '';
+    this.tipoMensajeHerramienta = '';
+  }
+
   agregarAuxiliar(): void {
     if (!this.selectedBrigada || !this.auxiliarSeleccionado) {
       this.mostrarMensaje('Debes seleccionar un auxiliar de campo.', 'error');
@@ -152,12 +180,64 @@ export class GestionarBrigadas implements OnInit {
     });
   }
 
+  crearHerramienta(): void {
+    const { nombre, descripcion, cantidad_disponible } = this.nuevaHerramienta;
+    if (!nombre || !descripcion || cantidad_disponible === null || cantidad_disponible === undefined) {
+      this.mostrarMensajeHerramienta('Debes completar todos los campos.', 'error');
+      return;
+    }
+
+    const cantidadNumerica = Number(cantidad_disponible);
+
+    if (Number.isNaN(cantidadNumerica)) {
+      this.mostrarMensajeHerramienta('La cantidad debe ser numérica.', 'error');
+      return;
+    }
+
+    if (cantidadNumerica < 0) {
+      this.mostrarMensajeHerramienta('La cantidad disponible no puede ser negativa.', 'error');
+      return;
+    }
+
+    const payload: CrearHerramientaDto = {
+      nombre: nombre.trim(),
+      descripcion: descripcion.trim(),
+      cantidad_disponible: cantidadNumerica
+    };
+
+    this.herramientaService.crear(payload).subscribe({
+      next: () => {
+        this.mostrarMensajeHerramienta('Herramienta creada correctamente.', 'exito');
+        this.cargarHerramientas();
+        this.nuevaHerramienta = {
+          nombre: '',
+          descripcion: '',
+          cantidad_disponible: 0
+        };
+      },
+      error: (err) => {
+        console.error('�?O Error creando herramienta:', err);
+        const msg = err?.error?.error || err?.error?.message || 'No fue posible crear la herramienta.';
+        this.mostrarMensajeHerramienta(msg, 'error');
+      }
+    });
+  }
+
   private mostrarMensaje(texto: string, tipo: 'exito' | 'error'): void {
     this.mensaje = texto;
     this.tipoMensaje = tipo;
     setTimeout(() => {
       this.mensaje = '';
       this.tipoMensaje = '';
+    }, 4000);
+  }
+
+  private mostrarMensajeHerramienta(texto: string, tipo: 'exito' | 'error'): void {
+    this.mensajeHerramienta = texto;
+    this.tipoMensajeHerramienta = tipo;
+    setTimeout(() => {
+      this.mensajeHerramienta = '';
+      this.tipoMensajeHerramienta = '';
     }, 4000);
   }
 }
