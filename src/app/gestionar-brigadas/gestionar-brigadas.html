@@ -1,90 +1,118 @@
 <app-navbar></app-navbar>
 
-<section class="gestion-brigadas">
-  <header class="encabezado">
-    <div>
-      <h1>Gestionar brigadas</h1>
-      <p>Administra auxiliares de campo y herramientas disponibles para cada brigada.</p>
-    </div>
-  </header>
+<section class="gestion-wrapper">
 
-  <div *ngIf="cargando" class="estado info">Cargando brigadas...</div>
-  <div *ngIf="!cargando && error" class="estado error">{{ error }}</div>
-  <div *ngIf="!cargando && !error && !brigadas.length" class="estado info">
-    No hay brigadas registradas por el momento.
+  <div class="gestion-card">
+
+    <h1 class="title">⚙️ Gestionar Brigadas</h1>
+    <p class="subtitle">Agrega auxiliares de campo y herramientas a una brigada seleccionada.</p>
+
+    <!-- ESTADOS GENERALES -->
+    <div *ngIf="cargando" class="estado info">Cargando brigadas...</div>
+    <div *ngIf="!cargando && error" class="estado error">{{ error }}</div>
+    <div *ngIf="!cargando && !error && !brigadas.length" class="estado info">
+      No hay brigadas registradas.
+    </div>
+
+    <!-- TABLA DE BRIGADAS -->
+    <div class="table-wrapper" *ngIf="!cargando && brigadas.length">
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Departamento</th>
+            <th>Conglomerado</th>
+            <th>Fecha</th>
+            <th>Líder</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let b of brigadas">
+            <td>#{{ b.id_brigada }}</td>
+            <td>{{ b.departamento }}</td>
+            <td>{{ b.id_conglomerado || 'Sin asignar' }}</td>
+            <td>{{ b.fecha_asignacion || 'Sin fecha' }}</td>
+            <td>{{ b.lider }}</td>
+            <td>
+              <button class="btn secundario" (click)="abrirGestion(b)">
+                Gestionar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
   </div>
 
-  <div class="tabla-contenedor" *ngIf="!cargando && brigadas.length">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Departamento</th>
-          <th>Conglomerado</th>
-          <th>Fecha asignación</th>
-          <th>Líder</th>
-          <th>Gestionar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let brigada of brigadas">
-          <td>#{{ brigada.id_brigada }}</td>
-          <td>{{ brigada.departamento }}</td>
-          <td>{{ brigada.id_conglomerado || 'Sin asignar' }}</td>
-          <td>{{ brigada.fecha_asignacion || 'Sin fecha' }}</td>
-          <td>{{ brigada.lider }}</td>
-          <td>
-            <button class="btn secundario" (click)="abrirGestion(brigada)">
-              Gestionar
+  <!-- ================================== -->
+  <!-- MODAL DE GESTIÓN                   -->
+  <!-- ================================== -->
+  <div class="modal-backdrop" *ngIf="selectedBrigada">
+
+    <div class="modal">
+
+      <button class="cerrar" (click)="cerrarGestion()">×</button>
+
+      <h2>Brigada #{{ selectedBrigada?.id_brigada }}</h2>
+      <p class="subtitulo">Selecciona los recursos para asignar.</p>
+
+      <div class="acciones">
+
+        <!-- AUXILIAR -->
+        <div class="campo">
+          <label for="auxiliarSelect">Auxiliar de campo</label>
+
+          <div class="dropdown">
+            <select id="auxiliarSelect" [(ngModel)]="auxiliarSeleccionado">
+              <option value="" disabled>Selecciona un auxiliar</option>
+              <option *ngFor="let aux of auxiliares" 
+                      [value]="aux.nro_documento">
+                {{ aux.nombre }} {{ aux.apellido }} — {{ aux.nro_documento }}
+              </option>
+            </select>
+
+            <button class="btn primario" (click)="agregarAuxiliar()">
+              Agregar
             </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+
+        <!-- HERRAMIENTA -->
+        <div class="campo">
+          <label for="herramientaSelect">Herramienta</label>
+
+          <div class="dropdown">
+            <select id="herramientaSelect" [(ngModel)]="herramientaSeleccionada">
+              <option value="" disabled>Selecciona una herramienta</option>
+              <option *ngFor="let h of herramientas" [value]="h.id_herramienta">
+                {{ h.nombre }}
+              </option>
+            </select>
+
+            <button class="btn primario" (click)="agregarHerramienta()">
+              Agregar
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MENSAJE -->
+      <div class="estado" 
+           *ngIf="mensaje"
+           [ngClass]="{ 'exito': tipoMensaje === 'exito', 'error': tipoMensaje === 'error' }">
+
+        {{ mensaje }}
+
+      </div>
+
+    </div>
   </div>
+
 </section>
-
-<!-- Modal gestión -->
-<div class="modal-backdrop" *ngIf="selectedBrigada">
-  <div class="modal">
-    <button class="cerrar" (click)="cerrarGestion()">×</button>
-    <h2>Gestionar brigada #{{ selectedBrigada?.id_brigada }}</h2>
-    <p class="subtitulo">Selecciona los recursos que quieres asociar.</p>
-
-    <div class="acciones">
-      <div class="campo">
-        <label for="auxiliarSelect">Agregar auxiliar de campo</label>
-        <div class="dropdown">
-          <select id="auxiliarSelect" [(ngModel)]="auxiliarSeleccionado">
-            <option value="" disabled>Selecciona un auxiliar</option>
-            <option *ngFor="let auxiliar of auxiliares" [value]="auxiliar.nro_documento">
-              {{ auxiliar.nombre }} {{ auxiliar.apellido }} - {{ auxiliar.nro_documento }}
-            </option>
-          </select>
-          <button class="btn primario" (click)="agregarAuxiliar()">
-            Agregar auxiliar
-          </button>
-        </div>
-      </div>
-
-      <div class="campo">
-        <label for="herramientaSelect">Agregar herramienta</label>
-        <div class="dropdown">
-          <select id="herramientaSelect" [(ngModel)]="herramientaSeleccionada">
-            <option value="" disabled>Selecciona una herramienta</option>
-            <option *ngFor="let herramienta of herramientas" [value]="herramienta.id_herramienta">
-              {{ herramienta.nombre }}
-            </option>
-          </select>
-          <button class="btn primario" (click)="agregarHerramienta()">
-            Agregar herramienta
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="estado" *ngIf="mensaje" [ngClass]="{ 'exito': tipoMensaje === 'exito', 'error': tipoMensaje === 'error' }">
-      {{ mensaje }}
-    </div>
-  </div>
-</div>
