@@ -83,9 +83,11 @@ export class GestionarBrigadas implements OnInit {
     const url = `${environment.apiAuthUrl}/usuarios`;
     this.http.get<UsuarioAuth[]>(url, { headers }).subscribe({
       next: (usuarios) => {
-        this.auxiliares = usuarios.filter(
-          (usuario) => usuario.rol?.toLowerCase() === 'auxiliar de campo'
-        );
+        const rolesExcluidos = ['administrador', 'jefe de brigada', 'jefe', 'lider'];
+        this.auxiliares = usuarios.filter((usuario) => {
+          const rol = usuario.rol?.toLowerCase() ?? '';
+          return rol && !rolesExcluidos.includes(rol);
+        });
       },
       error: (err) => {
         console.error('❌ Error cargando auxiliares:', err);
@@ -140,21 +142,40 @@ export class GestionarBrigadas implements OnInit {
 
   agregarAuxiliar(): void {
     if (!this.selectedBrigada || !this.auxiliarSeleccionado) {
-      this.mostrarMensaje('Debes seleccionar un auxiliar de campo.', 'error');
+      this.mostrarMensaje('Debes seleccionar un usuario autorizado.', 'error');
       return;
     }
 
     const idBrigada = Number(this.selectedBrigada.id_brigada);
-    const idAuxiliar = Number(this.auxiliarSeleccionado);
+    const usuarioSeleccionado = this.auxiliares.find(
+      (aux) => aux.nro_documento === this.auxiliarSeleccionado
+    );
 
-    this.brigadaService.agregarAuxiliar(idBrigada, idAuxiliar).subscribe({
+    if (!usuarioSeleccionado) {
+      this.mostrarMensaje('No se pudo identificar al usuario seleccionado.', 'error');
+      return;
+    }
+
+    const rawId = usuarioSeleccionado.id ?? usuarioSeleccionado.nro_documento;
+    let idIntegrante = Number(rawId);
+    if (Number.isNaN(idIntegrante)) {
+      idIntegrante = Number(usuarioSeleccionado.nro_documento);
+    }
+    if (Number.isNaN(idIntegrante)) {
+      this.mostrarMensaje('El usuario seleccionado tiene un documento inválido.', 'error');
+      return;
+    }
+
+    const rolIntegrante = usuarioSeleccionado.rol || 'auxiliar de campo';
+
+    this.brigadaService.agregarAuxiliar(idBrigada, idIntegrante, rolIntegrante).subscribe({
       next: () => {
-        this.mostrarMensaje('Auxiliar agregado a la brigada correctamente.', 'exito');
+        this.mostrarMensaje('Usuario agregado a la brigada correctamente.', 'exito');
         this.auxiliarSeleccionado = '';
       },
       error: (err) => {
-        console.error('❌ Error agregando auxiliar:', err);
-        this.mostrarMensaje('No fue posible agregar el auxiliar. Intenta nuevamente.', 'error');
+        console.error('❌ Error agregando usuario:', err);
+        this.mostrarMensaje('No fue posible agregar el usuario. Intenta nuevamente.', 'error');
       }
     });
   }

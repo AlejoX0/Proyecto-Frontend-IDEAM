@@ -55,13 +55,17 @@ export class BrigadaService {
     return this.http.put(url, data, { headers });
   }
 
-  agregarAuxiliar(id_brigada: number, id_auxiliar: number): Observable<any> {
+  agregarAuxiliar(
+    id_brigada: number,
+    id_auxiliar: number,
+    rol_en_brigada: string = 'auxiliar de campo'
+  ): Observable<any> {
     const headers = this.getHeaders();
     const url = `${environment.apiBrigadasUrl}/api/usuario-brigada`;
     const payload = {
       id_usuario: id_auxiliar,
       id_brigada,
-      rol_en_brigada: 'auxiliar de campo'
+      rol_en_brigada
     };
     return this.http.post(url, payload, { headers });
   }

@@ -5,7 +5,9 @@
   <div class="gestion-card">
 
     <h1 class="title">⚙️ Gestionar Brigadas</h1>
-    <p class="subtitle">Agrega auxiliares de campo y herramientas a una brigada seleccionada.</p>
+    <p class="subtitle">
+      Agrega usuarios autorizados (excepto administradores y jefes de brigada) y herramientas a una brigada seleccionada.
+    </p>
 
     <!-- ESTADOS GENERALES -->
     <div *ngIf="cargando" class="estado info">Cargando brigadas...</div>
@@ -70,16 +72,16 @@
 
       <div class="acciones">
 
-        <!-- AUXILIAR -->
+        <!-- INTEGRANTE -->
         <div class="campo">
-          <label for="auxiliarSelect">Auxiliar de campo</label>
+          <label for="auxiliarSelect">Usuario</label>
 
           <div class="dropdown">
             <select id="auxiliarSelect" [(ngModel)]="auxiliarSeleccionado">
-              <option value="" disabled>Selecciona un auxiliar</option>
+              <option value="" disabled>Selecciona un usuario</option>
               <option *ngFor="let aux of auxiliares" 
                       [value]="aux.nro_documento">
-                {{ aux.nombre }} {{ aux.apellido }} — {{ aux.nro_documento }}
+                {{ aux.nombre }} {{ aux.apellido }} — {{ aux.nro_documento }} ({{ aux.rol }})
               </option>
             </select>
 
